@@ -1,14 +1,12 @@
 import javafx.application.Application;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
 
-public class JavaFXTemplate extends Application {
+public class GuiServer extends Application {
 
 	int port_number = 0;
 
