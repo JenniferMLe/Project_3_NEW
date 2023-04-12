@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 public class GuiServer extends Application {
 
 	ListView<String> game_state;
+	Server serverConnection;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -33,10 +34,10 @@ public class GuiServer extends Application {
 
 		start_server.setOnAction(e -> {
 			display_server_scene(primaryStage);
-			int port_number = Integer.valueOf(port_input.getText());
+			int port_number = Integer.parseInt(port_input.getText());
 			System.out.println("Port is " + port_number);
 
-			Server serverConnection = new Server(data -> {
+			serverConnection = new Server(data -> {
 				Platform.runLater(()->{
 					game_state.getItems().add(data.toString());
 				});

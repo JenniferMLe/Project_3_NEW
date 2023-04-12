@@ -30,12 +30,13 @@ public class Client extends Thread{
 
         while (true) {
             try {
-                String message = in.readObject().toString();
-                callback.accept(message);
+                // gets info from server
+                PokerInfo serverData = (PokerInfo) in.readObject();
+                callback.accept(serverData);
             } catch (Exception e) { }
         }
     }
-
+    // sends info to server
     public void send(PokerInfo instance) {
         try {
             out.writeObject(instance);
