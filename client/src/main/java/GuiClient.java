@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
+import java.util.ArrayList;
 
 //yo what up this is a test
 public class GuiClient extends Application {
@@ -22,8 +23,23 @@ public class GuiClient extends Application {
 	void display_cards_scene(Stage primaryStage) {
 		Label label = new Label("Your cards are ...");
 
-		//
+		// get cards from server using the receive PokerInfo object
+		// and display them
 
+		clientConnection.receiveCards();
+
+
+//		//declare an arrayList to hold the cards from the pokerInfo object
+//		ArrayList<Integer> cards = clientPokerInfo.client_cards;
+//		//create a string to hold the cards
+//		String cardString = "";
+//		//loop through the cards and add them to the string
+//		for (int i = 0; i < cards.size(); i++) {
+//			cardString += cards.get(i) + " ";
+//		}
+//		System.out.println(cardString);
+//
+//		//print
 		Scene scene = new Scene(label, 400, 400);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
@@ -79,6 +95,8 @@ public class GuiClient extends Application {
 		// start game button
 		Button start_game = new Button("Start Game");
 
+
+		game_state2 = new ListView<>();
 		start_game.setOnAction(e -> {
 			display_wager_scene(primaryStage);
 			int port_number = Integer.parseInt(portNum_input.getText());
@@ -91,6 +109,8 @@ public class GuiClient extends Application {
 					game_state2.getItems().add(data.toString());
 				});
 			}, port_number, IP_addr);
+
+
 
 			clientConnection.start();
 		});

@@ -24,6 +24,7 @@ public class Server{
         server = new TheServer();
         server.start();
 
+        card_deck =  new ArrayList<>();
         // initialize card_deck with integers 0-51
         for (int i = 0; i < 52; i++) {
             card_deck.add(i);
@@ -61,11 +62,13 @@ public class Server{
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
+            this.clientPokerInfo = new PokerInfo(0,0);
         }
 
         public void selectCards() {
             // shuffle deck
-            ArrayList<Integer> shuffledCardDeck = card_deck;
+            ArrayList<Integer> shuffledCardDeck;
+            shuffledCardDeck = card_deck;
             Collections.shuffle(shuffledCardDeck);
             clientPokerInfo.set_shuffledCards(shuffledCardDeck);
 
@@ -73,6 +76,7 @@ public class Server{
             ArrayList<Integer> cards1 = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 cards1.add(shuffledCardDeck.get(i));
+                System.out.println(cards1.get(i).toString());
             }
             clientPokerInfo.set_clientCards(cards1);
 
@@ -87,6 +91,9 @@ public class Server{
         // sends info to client
         public void send(PokerInfo instance) {
             try {
+                //print statment to check what is being sent
+                System.out.println("Sending to client: " + instance.get_clientCards().get(0));
+
                 out.writeObject(instance);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -96,9 +103,13 @@ public class Server{
 
         public void run(){
             try {
+
                 in = new ObjectInputStream(connection.getInputStream());
                 out = new ObjectOutputStream(connection.getOutputStream());
                 connection.setTcpNoDelay(true);
+                selectCards();
+
+                send(clientPokerInfo);
             }
             catch(Exception e) {
                 System.out.println("Streams not open");
