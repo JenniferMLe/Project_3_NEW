@@ -24,9 +24,22 @@ public class GuiClient extends Application {
 		Label label = new Label("Your cards are ...");
 
 		// get cards from server using the receive PokerInfo object
+		//copy the client pokerInfo object to the pokerInfo object
+		clientPokerInfo = clientConnection.receiveCards();
+//get the cards from the pokerInfo object
+		ArrayList<Integer> cards = clientPokerInfo.client_cards;
+		//create a string to hold the cards
+		String cardString = "";
+		//loop through the cards and add them to the string
+		for (int i = 0; i < cards.size(); i++) {
+			cardString += cards.get(i) + " ";
+		}
+		System.out.println(cardString);
+
+
 		// and display them
 
-		clientConnection.receiveCards();
+//		clientConnection.receiveCards();
 
 
 //		//declare an arrayList to hold the cards from the pokerInfo object

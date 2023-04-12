@@ -38,6 +38,8 @@ public class Client extends Thread{
                 // gets info from server
                 PokerInfo serverData = (PokerInfo) in.readObject();
                 callback.accept(serverData);
+
+
             } catch (Exception e) { }
         }
     }
@@ -52,16 +54,28 @@ public class Client extends Thread{
     }
 
 
-//    //receives 3 cards from server
-    public void receiveCards() {
+//    //receives 3 cards from server, return type is PokerInfo object
+    public PokerInfo receiveCards() {
         try {
             PokerInfo serverData = (PokerInfo) in.readObject();
             clientCards = serverData.get_clientCards();
-            System.out.println("Received client cards from server: " + clientCards.get(0));
+            callback.accept("Received client cards from server: " + clientCards.get(0));
+            return serverData;
         } catch (Exception e) {
             callback.accept("Error receiving client cards from server: " + e.getMessage());
         }
+        return null;
     }
+
+//    public void receiveCards() {
+//        try {
+//            PokerInfo serverData = (PokerInfo) in.readObject();
+//            clientCards = serverData.get_clientCards();
+//            System.out.println("Received client cards from server: " + clientCards.get(0));
+//        } catch (Exception e) {
+//            callback.accept("Error receiving client cards from server: " + e.getMessage());
+//        }
+//    }
 
 
 
