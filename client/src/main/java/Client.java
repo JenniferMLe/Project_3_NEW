@@ -14,9 +14,9 @@ public class Client extends Thread{
     private Consumer<Serializable> callback;
     int port_number = 0;
     String IP_addr = "";
+    PokerInfo clientPokerInfo;
 
     ArrayList<Integer> clientCards; //idk if this is needed
-
 
 
     Client(Consumer<Serializable> call, int port_number, String IP_addr){
@@ -38,6 +38,7 @@ public class Client extends Thread{
                 // gets info from server
                 PokerInfo serverData = (PokerInfo) in.readObject();
                 callback.accept(serverData);
+                clientPokerInfo = serverData;
             } catch (Exception e) { }
         }
     }

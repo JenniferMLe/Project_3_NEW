@@ -13,7 +13,7 @@ public class GuiClient extends Application {
 
 	ListView<String> game_state2;
 	Client clientConnection;
-	PokerInfo clientPokerInfo;
+	PokerInfo clientPokerInfo;   // where data is sent and copied
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -26,8 +26,13 @@ public class GuiClient extends Application {
 		// get cards from server using the receive PokerInfo object
 		// and display them
 
-		clientConnection.receiveCards();
+		// clientConnection.receiveCards();
 
+		this.clientPokerInfo = clientConnection.clientPokerInfo;
+		String Cards = String.valueOf(clientPokerInfo.get_clientCards().get(0) + "\n" +
+					   clientPokerInfo.get_clientCards().get(1) + "\n" +
+				        clientPokerInfo.get_clientCards().get(2));
+		Label cards = new Label(Cards);
 
 //		//declare an arrayList to hold the cards from the pokerInfo object
 //		ArrayList<Integer> cards = clientPokerInfo.client_cards;
@@ -38,9 +43,12 @@ public class GuiClient extends Application {
 //			cardString += cards.get(i) + " ";
 //		}
 //		System.out.println(cardString);
+
+
 //
 //		//print
-		Scene scene = new Scene(label, 400, 400);
+		VBox c = new VBox(10, label, cards);
+		Scene scene = new Scene(c, 400, 400);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
@@ -61,10 +69,10 @@ public class GuiClient extends Application {
 		draw_cards.setOnAction(e -> {
 			int wager1 = Integer.parseInt(ante_wager_input.getText());
 			int wager2 = Integer.parseInt(pairPlus_input.getText());
-			PokerInfo clientInfo = new PokerInfo(wager1, wager2);
+			clientPokerInfo = new PokerInfo(wager1, wager2);
 			System.out.println("Ante Wager is " + wager1);
 			System.out.println("Pair Plus Wager is " + wager2);
-			clientConnection.send(clientInfo);
+			clientConnection.send(clientPokerInfo);
 			display_cards_scene(primaryStage);
 		});
 
@@ -109,8 +117,6 @@ public class GuiClient extends Application {
 					game_state2.getItems().add(data.toString());
 				});
 			}, port_number, IP_addr);
-
-
 
 			clientConnection.start();
 		});

@@ -107,9 +107,8 @@ public class Server{
                 in = new ObjectInputStream(connection.getInputStream());
                 out = new ObjectOutputStream(connection.getOutputStream());
                 connection.setTcpNoDelay(true);
-                selectCards();
-
-                send(clientPokerInfo);
+                // selectCards();
+                // send(clientPokerInfo);
             }
             catch(Exception e) {
                 System.out.println("Streams not open");
@@ -121,6 +120,8 @@ public class Server{
                     PokerInfo clientData = (PokerInfo) in.readObject();
                     callback.accept("Client's ante wager is " + clientData.get_anteWager() +
                                        "\nClient's pair plus wager is " + clientData.get_paiPlusWager());
+                    selectCards();
+                    send(clientPokerInfo);
                 }
                 catch(Exception e) {
                     callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
