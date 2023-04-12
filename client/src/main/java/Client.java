@@ -14,9 +14,9 @@ public class Client extends Thread{
     private Consumer<Serializable> callback;
     int port_number = 0;
     String IP_addr = "";
+    PokerInfo clientPokerInfo;
 
     ArrayList<Integer> clientCards; //idk if this is needed
-
 
 
     Client(Consumer<Serializable> call, int port_number, String IP_addr){
@@ -38,8 +38,7 @@ public class Client extends Thread{
                 // gets info from server
                 PokerInfo serverData = (PokerInfo) in.readObject();
                 callback.accept(serverData);
-
-
+                clientPokerInfo = serverData;
             } catch (Exception e) { }
         }
     }
@@ -54,28 +53,16 @@ public class Client extends Thread{
     }
 
 
-//    //receives 3 cards from server, return type is PokerInfo object
-    public PokerInfo receiveCards() {
+//    //receives 3 cards from server
+    public void receiveCards() {
         try {
             PokerInfo serverData = (PokerInfo) in.readObject();
             clientCards = serverData.get_clientCards();
-            callback.accept("Received client cards from server: " + clientCards.get(0));
-            return serverData;
+            System.out.println("Received client cards from server: " + clientCards.get(0));
         } catch (Exception e) {
             callback.accept("Error receiving client cards from server: " + e.getMessage());
         }
-        return null;
     }
-
-//    public void receiveCards() {
-//        try {
-//            PokerInfo serverData = (PokerInfo) in.readObject();
-//            clientCards = serverData.get_clientCards();
-//            System.out.println("Received client cards from server: " + clientCards.get(0));
-//        } catch (Exception e) {
-//            callback.accept("Error receiving client cards from server: " + e.getMessage());
-//        }
-//    }
 
 
 
