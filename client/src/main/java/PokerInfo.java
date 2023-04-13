@@ -31,4 +31,5 @@ public class PokerInfo implements Serializable {
         this.anteWager = anteWager;
         this.pairPlusWager = pairPlusWager;
     }
+
 }
