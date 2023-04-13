@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-//
+// server pokerInfo
 public class PokerInfo implements Serializable {
 
     private int anteWager;
