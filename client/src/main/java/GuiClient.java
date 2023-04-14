@@ -16,14 +16,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
-//import the boarder pane
 import javafx.scene.layout.BorderPane;
-//import the grid pane
 import javafx.scene.layout.GridPane;
-//import vpos
 import javafx.geometry.VPos;
-//import anchorpane
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.FontWeight;
+import javafx.scene.paint.Color;
+import javafx.collections.FXCollections;
+
 
 
 //yo what up this is a test
@@ -162,45 +161,94 @@ public class GuiClient extends Application {
 	//
 	void display_wager_scene(Stage primaryStage) {
 		Label ante_wager = new Label("Please enter your ante wager in dollars");
-		TextField ante_wager_input = new TextField();
+		ante_wager.setStyle("-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
+				"-fx-font-size: 16px; -fx-text-fill: #000000;");
+		Spinner<Integer> ante_wager_input = new Spinner<>(5, 25, 5);
 		ante_wager_input.setMaxWidth(100);
 
+
 		Label pairPlus_wager = new Label("Please enter your pair plus wager in dollars or a 0 to skip");
-		TextField pairPlus_input = new TextField();
+		pairPlus_wager.setStyle("-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
+				"-fx-font-size: 16px; -fx-text-fill: #000000;");
+		Spinner<Integer> pairPlus_input = new Spinner<>();
 		pairPlus_input.setMaxWidth(100);
 
-		Label doubleClick = new Label("Please double click button to draw cards");
-		Button draw_cards = new Button("Draw Cards");
+		Integer[] possibleValues = new Integer[22];
+		possibleValues[0] = 0;
+		for (int i = 1; i <= 21; i++) {
+			possibleValues[i] = i + 4;
+		}
 
-		draw_cards.setOnAction(e -> {
-			int wager1 = Integer.parseInt(ante_wager_input.getText());
-			int wager2 = Integer.parseInt(pairPlus_input.getText());
+		SpinnerValueFactory<Integer> pairPlusValueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<>(FXCollections.observableArrayList(possibleValues));
+		pairPlusValueFactory.setValue(0);
+		pairPlus_input.setValueFactory(pairPlusValueFactory);
+
+		Label doubleClick = new Label("Please double click button to draw cards");
+		doubleClick.setStyle("-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
+				"-fx-font-size: 16px; -fx-text-fill: #000000;");
+		Button draw_cards = new Button("Draw Cards");
+		draw_cards.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;" +
+				"-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -fx-font-size: 16px;");
+
+		//create a new button called "confirm Choice"
+		Button confirmChoice = new Button("Confirm Choice");
+		confirmChoice.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;" +
+				"-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -fx-font-size: 16px;");
+		//make the draw cards button invisible
+		draw_cards.setVisible(false);
+		//create an event handler for the confirm choice button
+		confirmChoice.setOnAction(e -> {
+			int wager1 = Integer.parseInt(ante_wager_input.getValue().toString());
+			int wager2 = Integer.parseInt(pairPlus_input.getValue().toString());
 			// wager1Global = wager1;   don't need because we have the PokerInfo class
 			// wager2Global = wager2;
 			clientPokerInfo = new PokerInfo(wager1, wager2);
 			clientConnection.send(clientPokerInfo);
-			display_cards_scene(primaryStage);
-			/*
-			// make the confirmChoice button invisible
-			// confirmChoice.setVisible(false);
-			// make the text fields uneditable
-			// ante_wager_input.setEditable(false);
-			// pairPlus_input.setEditable(false);
+			//make the confirm choice button invisible
+			confirmChoice.setVisible(false);
+			//make the draw cards button visible
+			draw_cards.setVisible(true);
+			//create event handler for the draw cards button
+			draw_cards.setOnAction(e1 -> {
+				display_cards_scene(primaryStage);
+			});
 
-			//show the draw cards button
-			//if the pokerclient is not null, make the draw cards button visible and add event handler
-			if(clientPokerInfo != null) {
-				draw_cards.setVisible(true);
-				draw_cards.setOnAction(e1 -> {
-					display_cards_scene(primaryStage);
-				});
-			}
-
-			 */
 		});
 
-		VBox allComponents = new VBox(10, ante_wager, ante_wager_input, pairPlus_wager,
-									  pairPlus_input, doubleClick, draw_cards);
+
+//		draw_cards.setOnAction(e -> {
+////			int wager1 = Integer.parseInt(ante_wager_input.getValue().toString());
+////			int wager2 = Integer.parseInt(pairPlus_input.getValue().toString());
+////			// wager1Global = wager1;   don't need because we have the PokerInfo class
+////			// wager2Global = wager2;
+////			clientPokerInfo = new PokerInfo(wager1, wager2);
+////			clientConnection.send(clientPokerInfo);
+//			display_cards_scene(primaryStage);
+//		});
+
+		ImageView spadeImage = new ImageView(new Image(getClass().getResourceAsStream("/spade.png")));
+		ImageView clubImage = new ImageView(new Image(getClass().getResourceAsStream("/club.png")));
+		ImageView heartImage = new ImageView(new Image(getClass().getResourceAsStream("/heart.png")));
+		ImageView diamondImage = new ImageView(new Image(getClass().getResourceAsStream("/diamond.png")));
+
+//make each image very small
+		spadeImage.setFitHeight(40);
+		spadeImage.setFitWidth(40);
+		clubImage.setFitHeight(40);
+		clubImage.setFitWidth(40);
+		heartImage.setFitHeight(40);
+		heartImage.setFitWidth(40);
+		diamondImage.setFitHeight(40);
+		diamondImage.setFitWidth(40);
+
+//create an hbox to hold these images
+		HBox imageBox = new HBox(10, spadeImage, clubImage, heartImage, diamondImage);
+//center the hbox
+		imageBox.setAlignment(Pos.CENTER);
+
+
+		VBox allComponents = new VBox(10, imageBox, ante_wager, ante_wager_input, pairPlus_wager,
+				pairPlus_input, doubleClick, draw_cards, confirmChoice);
 
 		allComponents.setAlignment(Pos.CENTER);
 
@@ -208,32 +256,48 @@ public class GuiClient extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
+
+
 	}
 
 	void display_welcome_screen(Stage primaryStage) {
-		Label welcome = new Label("Welcome to the game!");
+		Label welcome = new Label("Welcome to 3 Card Poker");
+		welcome.setFont(Font.font("Impact", FontWeight.BOLD, 30));
+		welcome.setTextFill(Color.web("#3a3a3a"));
 
-		// port number
+// Load the image and create an ImageView
+		Image welcomeCardsImage = new Image(getClass().getResourceAsStream("/welcomeCards.PNG"));
+		ImageView welcomeCardsImageView = new ImageView(welcomeCardsImage);
+		welcomeCardsImageView.setPreserveRatio(true);
+		welcomeCardsImageView.setFitWidth(200);
+
 		Label enter_portNum = new Label("Enter Port Number");
+		enter_portNum.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
 		TextField portNum_input = new TextField();
 		portNum_input.setMaxWidth(200);
+		portNum_input.setStyle("-fx-font-size: 14px;");
 
-		// IP address
 		Label enter_IP_addr = new Label("Enter IP Address");
+		enter_IP_addr.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
 		TextField IP_addr_input = new TextField();
 		IP_addr_input.setMaxWidth(200);
+		IP_addr_input.setStyle("-fx-font-size: 14px;");
 
-		// start game button
 		Button start_game = new Button("Start Game");
+		start_game.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+		start_game.setStyle("-fx-base: #3a9ad9;");
+
 		start_game.setOnAction(e -> {
-			// display_wager_scene(primaryStage);
+			// Display_wager_scene(primaryStage);
 			int port_number = Integer.parseInt(portNum_input.getText());
 			String IP_addr = IP_addr_input.getText();
 			System.out.println("Port Number is " + port_number);
 			System.out.println("IP Address is " + IP_addr);
 
 			clientConnection = new Client(data -> {
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 
 				});
 			}, port_number, IP_addr);
@@ -241,15 +305,19 @@ public class GuiClient extends Application {
 			display_wager_scene(primaryStage);
 		});
 
-		// set up VBox with all components
-		VBox components = new VBox(20, welcome, enter_portNum, portNum_input,
-				  					enter_IP_addr, IP_addr_input, start_game);
+		VBox components = new VBox(20, welcome, welcomeCardsImageView, enter_portNum, portNum_input,
+				enter_IP_addr, IP_addr_input, start_game);
 		components.setAlignment(Pos.CENTER);
+		components.setStyle("-fx-background-color: #f0f0f0;");
+		components.setMinWidth(400);
+		components.setMinHeight(400);
+		components.setFillWidth(true);
 
-		// set up scene
 		Scene scene = new Scene(components, 400, 400);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
+
 	}
 
 	@Override
