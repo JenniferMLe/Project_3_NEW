@@ -16,6 +16,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+//import the boarder pane
+import javafx.scene.layout.BorderPane;
+//import the grid pane
+import javafx.scene.layout.GridPane;
+//import vpos
+import javafx.geometry.VPos;
+//import anchorpane
+import javafx.scene.layout.AnchorPane;
+
 
 //yo what up this is a test
 public class GuiClient extends Application {
@@ -24,8 +33,36 @@ public class GuiClient extends Application {
 	Client clientConnection;
 	PokerInfo clientPokerInfo;   // where data is sent and copied
 
+	//initialize the pokertable image variable as global
+
 	// private int wager1Global;
 	// private int wager2Global;
+
+	ArrayList<Image> cardImages;
+
+	private void loadCardImages() {
+		cardImages = new ArrayList<>();
+		String[] suits = {"clubs", "spades", "hearts", "diamonds"};
+		String[] ranks = {"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"};
+
+		for (String suit : suits) {
+			for (String rank : ranks) {
+				String filename = "/PNG-cards/" + rank + "_of_" + suit + ".png";
+				Image image = new Image(getClass().getResourceAsStream(filename));
+				cardImages.add(image);
+			}
+		}
+	}
+
+	private ImageView getCardImageView(int number) {
+		int suit = number / 13;
+		int rank = number % 13;
+		Image cardImage = cardImages.get(suit * 13 + rank);
+		ImageView imageView = new ImageView(cardImage);
+		imageView.setFitWidth(60);
+		imageView.setPreserveRatio(true);
+		return imageView;
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -33,7 +70,6 @@ public class GuiClient extends Application {
 	}
 
 	void display_cards_scene(Stage primaryStage) {
-
 		MenuBar menuBar = new MenuBar();
 		Menu optionsMenu = new Menu("Options");
 		MenuItem exitItem = new MenuItem("Exit");
@@ -42,49 +78,85 @@ public class GuiClient extends Application {
 		optionsMenu.getItems().addAll(exitItem, freshStartItem, newLookItem);
 		menuBar.getMenus().add(optionsMenu);
 
-		// Player and dealer card areas
-		Label playerCardsLabel = new Label("Player Cards");
-		Label dealerCardsLabel = new Label("Dealer Cards");
+// Load the image
+		Image pokerTable = new Image("PokerTable.png");
+		ImageView pokerTableImage = new ImageView(pokerTable);
+		pokerTableImage.setFitWidth(600);
+		pokerTableImage.setPreserveRatio(true);
 
-		// Add the logic and cards
-		// this.clientPokerInfo = clientConnection.clientPokerInfo;
+// Player and dealer card areas
+		Label playerCardsLabel = new Label("Player Cards:");
+		Label dealerCardsLabel = new Label("Dealer Cards:");
+
 		clientPokerInfo.set_clientCards(clientConnection.clientPokerInfo.get_clientCards());
-		String Cards = String.valueOf(clientPokerInfo.get_clientCards().get(0)) + "\n" +
-				String.valueOf(clientPokerInfo.get_clientCards().get(1)) + "\n" +
+		String Cards = String.valueOf(clientPokerInfo.get_clientCards().get(0)) + ", " +
+				String.valueOf(clientPokerInfo.get_clientCards().get(1)) + ", " +
 				String.valueOf(clientPokerInfo.get_clientCards().get(2));
-		Label cards = new Label(Cards);
 
-		VBox playerCards = new VBox(20, playerCardsLabel, cards); // Add player card images here
-		playerCards.setStyle("-fx-border-color: black; -fx-border-width: 1;");
-		VBox dealerCards = new VBox(10, dealerCardsLabel); // Add dealer card images here
+        clientPokerInfo.set_serverCards(clientConnection.clientPokerInfo.get_serverCards());
+		String Cards2 = String.valueOf(clientPokerInfo.get_serverCards().get(0)) + ", " +
+				String.valueOf(clientPokerInfo.get_serverCards().get(1)) + ", " +
+				String.valueOf(clientPokerInfo.get_serverCards().get(2));
 
-		// Wager and winnings areas
+//		Label cards = new Label(Cards);
+//		Label cards2 = new Label(Cards2);
+//		HBox playerCards = new HBox(10, playerCardsLabel, cards);
+//		HBox dealerCards = new HBox(10, dealerCardsLabel, cards2);
+
+
+		ImageView card1 = getCardImageView(clientPokerInfo.get_clientCards().get(0));
+		ImageView card2 = getCardImageView(clientPokerInfo.get_clientCards().get(1));
+		ImageView card3 = getCardImageView(clientPokerInfo.get_clientCards().get(2));
+
+		HBox playerCards = new HBox(10, playerCardsLabel, card1, card2, card3);
+
+		ImageView dealerCard1 = getCardImageView(clientPokerInfo.get_serverCards().get(0));
+		ImageView dealerCard2 = getCardImageView(clientPokerInfo.get_serverCards().get(1));
+		ImageView dealerCard3 = getCardImageView(clientPokerInfo.get_serverCards().get(2));
+
+		HBox dealerCards = new HBox(10, dealerCardsLabel, dealerCard1, dealerCard2, dealerCard3);
+
+
+		VBox mainBox = new VBox(175);
+		mainBox.getChildren().addAll(dealerCards, playerCards);
+
+
+		GridPane gridPane = new GridPane();
+		gridPane.add(mainBox, 0, 0);
+		gridPane.setAlignment(Pos.CENTER);
+
+// Set constraints to control the position of dealer and player cards
+		gridPane.setValignment(mainBox, VPos.TOP);
+		gridPane.setMargin(mainBox, new Insets(-10, 0, 0, 0)); // Adjust margin for dealerCards
+
+// Wager and winnings areas
 		Label anteWagerLabel = new Label("Ante Wager: " + clientPokerInfo.get_anteWager());
 		Label pairPlusWagerLabel = new Label("Pair Plus Wager: " + clientPokerInfo.get_paiPlusWager());
-		Label playerWinningsLabel = new Label("Player Winnings: "); // Add player winnings value here
+		Label playerWinningsLabel = new Label("Player Winnings: ");
 		VBox wagerAndWinnings = new VBox(10, anteWagerLabel, pairPlusWagerLabel, playerWinningsLabel);
 
-		// Game info area
+// Game info area
 		Label gameInfoLabel = new Label("Game Info:");
 		TextArea gameInfo = new TextArea();
 		gameInfo.setEditable(false);
 		VBox gameInfoArea = new VBox(10, gameInfoLabel, gameInfo);
 
-		// Layout and scene setup
-		HBox cardAreas = new HBox(30, playerCards, dealerCards);
-		cardAreas.setAlignment(Pos.CENTER);
-		VBox mainLayout = new VBox(10, menuBar, cardAreas, wagerAndWinnings, gameInfoArea);
-		mainLayout.setPadding(new Insets(10));
-		Scene scene = new Scene(mainLayout, 600, 500);
+// Layout and scene setup
+
+
+		StackPane mainStack = new StackPane(pokerTableImage, gridPane);
+		BorderPane borderPane = new BorderPane();
+		borderPane.setTop(menuBar);
+		borderPane.setLeft(wagerAndWinnings);
+		borderPane.setCenter(mainStack);
+		borderPane.setBottom(gameInfoArea);
+
+		Scene scene = new Scene(borderPane, 600, 500);
 
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
 
-		// print the cards one by one to the terminal
-		for (int i = 0; i < clientPokerInfo.get_clientCards().size(); i++) {
-			System.out.println(clientPokerInfo.get_clientCards().get(i));
-		}
 	}
 
 	//
@@ -182,6 +254,7 @@ public class GuiClient extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		loadCardImages();
 		display_welcome_screen(primaryStage);
 	}
 }

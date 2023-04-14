@@ -93,6 +93,8 @@ public class Server{
             try {
                 //print statment to check what is being sent
                 System.out.println("Sending to client: " + instance.get_clientCards().get(0));
+                //another print statment to check what is being sent to the client from the server
+                System.out.println("Sending to client LOL m8 : " + instance.get_serverCards().get(0));
 
                 out.writeObject(instance);
             } catch (IOException e) {
