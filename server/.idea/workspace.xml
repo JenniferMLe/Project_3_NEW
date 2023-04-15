@@ -5,18 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf7db38-6e8b-4986-95f9-62e6a310b58f" name="Changes" comment="added some changes">
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GuiServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GuiServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/GuiServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GuiServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$TheServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$TheServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/compute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/compute.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,11 +55,12 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jenniferle/Desktop/Project 3/server&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sebastiankowalczyk/Desktop/Project_3_NEW/server&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -75,8 +73,10 @@
       <option name="presentableId" value="Default" />
       <updated>1681513145089</updated>
       <workItem from="1681513146425" duration="27000" />
-      <workItem from="1681513181337" duration="23025000" />
-      <workItem from="1681579938023" duration="24000" />
+      <workItem from="1681513181337" duration="21656000" />
+      <workItem from="1681580832314" duration="3799000" />
+      <workItem from="1681585536331" duration="42000" />
+      <workItem from="1681585582712" duration="38000" />
     </task>
     <task id="LOCAL-00001" summary="added some changes">
       <created>1681576436882</created>
@@ -85,21 +85,7 @@
       <option name="project" value="LOCAL" />
       <updated>1681576436882</updated>
     </task>
-    <task id="LOCAL-00002" summary="added some changes">
-      <created>1681577595072</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1681577595072</updated>
-    </task>
-    <task id="LOCAL-00003" summary="added some changes">
-      <created>1681578290372</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1681578290372</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.*;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.net.InetSocketAddress;
 
 //test2
 public class Server{
@@ -17,6 +20,13 @@ public class Server{
     TheServer server;
     private Consumer<Serializable> callback;
     int port_number;
+
+    //boolean property to control client connections
+    private volatile boolean allowClients = true;
+    // Add a setter method for the boolean property
+    public void setAllowClients(boolean allowClients) {
+        this.allowClients = allowClients;
+    }
 
     // constructor
     Server(Consumer<Serializable> call, int port_number){
@@ -35,22 +45,30 @@ public class Server{
     public class TheServer extends Thread{
 
         public void run() {
-            try(ServerSocket mysocket = new ServerSocket(port_number);){
-                System.out.println("Server is waiting for a client!");
+            try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
+                serverSocketChannel.bind(new InetSocketAddress(port_number));
+                serverSocketChannel.configureBlocking(false);
 
-                while(true) {
-
-                    ClientThread c = new ClientThread(mysocket.accept(), count);
-                    callback.accept("client has connected to server: " + "client #" + count);
-                    clients.add(c);
-                    c.start();
-                    count++;
+                while (true) {
+                    if (allowClients) {
+                        SocketChannel socketChannel = serverSocketChannel.accept();
+                        if (socketChannel != null) {
+                            ClientThread c = new ClientThread(socketChannel.socket(), count);
+                            callback.accept("client has connected to server: " + "client #" + count);
+                            clients.add(c);
+                            c.start();
+                            count++;
+                        } else {
+                            Thread.sleep(100);
+                        }
+                    } else {
+                        Thread.sleep(1000);
+                    }
                 }
-            }//end of try
-            catch(Exception e) {
+            } catch (Exception e) {
                 callback.accept("Server socket did not launch");
             }
-        }//end of while
+        }
     }
 
     class ClientThread extends Thread{

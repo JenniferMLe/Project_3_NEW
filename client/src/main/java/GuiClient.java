@@ -87,6 +87,22 @@ public class GuiClient extends Application {
 		MenuItem newLookItem = new MenuItem("NewLook");
 		optionsMenu.getItems().addAll(exitItem, freshStartItem, newLookItem);
 		menuBar.getMenus().add(optionsMenu);
+
+
+		//event handler for menu bar
+		exitItem.setOnAction(e -> {
+			Platform.exit();
+		});
+
+		//event handler for fresh start
+		freshStartItem.setOnAction(e -> {
+			//set pair plus wager to 0
+			//set ante wager to 0
+			//set winnings to 0
+			//reshuffle deck(new cards for both dealer and player)
+			//go back to wager scene
+		});
+
 	}
 
 	public static void main(String[] args) {
@@ -127,6 +143,10 @@ public class GuiClient extends Application {
 	void display_cards_scene(Stage primaryStage) {
 
 		create_menu_bar();
+
+		//event handler for menu bar
+
+
 
 		// play wager area
 		Label playWager = new Label("Enter your play wager. This must\nbe equal to your ante wager.");
