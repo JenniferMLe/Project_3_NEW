@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.function.Consumer;
 import java.util.ArrayList;
 
+
+
+//test1
 public class Client extends Thread{
     Socket socketClient;
     ObjectOutputStream out;
