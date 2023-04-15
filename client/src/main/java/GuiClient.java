@@ -178,7 +178,7 @@ public class GuiClient extends Application {
 		Label cardsHidden = new Label("Dealer Cards: ");
 
 		// clientPokerInfo.set_clientCards(clientConn.clientPokerInfo.get_clientCards());
-        // clientPokerInfo.set_serverCards(clientConn.clientPokerInfo.get_serverCards());
+		// clientPokerInfo.set_serverCards(clientConn.clientPokerInfo.get_serverCards());
 
 		// player cards
 		ImageView card1 = getCardImageView(clientConn.info.get_clientCards().get(0));
