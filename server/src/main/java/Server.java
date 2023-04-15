@@ -105,12 +105,9 @@ public class Server{
 
         public void run(){
             try {
-
                 in = new ObjectInputStream(connection.getInputStream());
                 out = new ObjectOutputStream(connection.getOutputStream());
                 connection.setTcpNoDelay(true);
-                // selectCards();
-                // send(clientPokerInfo);
             }
             catch(Exception e) {
                 System.out.println("Streams not open");
