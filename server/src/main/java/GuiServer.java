@@ -6,6 +6,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.*;
+//import insets
+import javafx.geometry.Insets;
+
+
 
 public class GuiServer extends Application {
 
@@ -19,7 +25,27 @@ public class GuiServer extends Application {
 
 	void display_server_scene(Stage primaryStage) {
 		Label state = new Label("State of Game");
-		VBox server_box = new VBox(20, state, game_state);
+
+// Add radio buttons to turn server on and off
+		RadioButton on_button = new RadioButton("Server ON");
+		RadioButton off_button = new RadioButton("Server OFF");
+		ToggleGroup toggle_group = new ToggleGroup();
+		on_button.setToggleGroup(toggle_group);
+		off_button.setToggleGroup(toggle_group);
+		on_button.setSelected(true);
+		toggle_group.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+			if (newVal == on_button) {
+				serverConnection.setAllowClients(true);
+			} else if (newVal == off_button) {
+				serverConnection.setAllowClients(false);
+			}
+		});
+
+		HBox button_box = new HBox(20, on_button, off_button);
+		button_box.setAlignment(Pos.CENTER);
+
+		VBox server_box = new VBox(20, state, button_box, game_state);
+		server_box.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(server_box, 400, 400);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is the Server");
