@@ -58,7 +58,6 @@ public class Server{
         ObjectInputStream in;
         ObjectOutputStream out;
         PokerInfo info;
-        int card_index = 0;
 
         ClientThread(Socket s, int count){
             this.connection = s;
@@ -70,7 +69,7 @@ public class Server{
             ArrayList<Integer> three_cards = new ArrayList<>();
             for (int i = card_index; i < card_index + 3; i++) {
                 three_cards.add(info.get_shuffledCards().get(i));
-                this.card_index++;
+                info.cardIndex++;
             }
             return three_cards;
         }
@@ -82,8 +81,8 @@ public class Server{
             Collections.shuffle(shuffledCardDeck);
             info.set_shuffledCards(shuffledCardDeck);
 
-            info.set_clientCards(draw_three_cards(card_index));
-            info.set_serverCards(draw_three_cards(card_index));
+            info.set_clientCards(draw_three_cards(info.cardIndex));
+            info.set_serverCards(draw_three_cards(info.cardIndex));
         }
 
         // sends info to client
@@ -116,16 +115,19 @@ public class Server{
                 try {
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
+                    // this.info = (PokerInfo) in.readObject();
                     callback.accept("received data");
                     // selectCards();
                     info.set_anteWager(clientData.get_anteWager());
                     info.set_pairPlusWager(clientData.get_paiPlusWager());
                     info.fold = clientData.fold;
+
                     if (!compute.queenOrHigher(info.get_serverCards())) {
                         info.set_queenHigh(false);
                     } else {
                         info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
                     }
+                    info.print_info();
                     send(info);
                 }
                 catch(Exception e) {

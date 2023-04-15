@@ -5,14 +5,16 @@ import java.util.ArrayList;
 // server pokerInfo
 public class PokerInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int anteWager;
     private int pairPlusWager;
     ArrayList<Integer> shuffled_cards;
     ArrayList<Integer> client_cards;
     ArrayList<Integer> server_cards;
-    boolean queenHigh;
-    boolean fold;
-    int winnings;
+    boolean queenHigh = false;
+    boolean fold = false;
+    int winnings = 0;
+    int cardIndex = 0;
 
     public void set_anteWager(int anteWager) { this.anteWager = anteWager; }
     public void set_pairPlusWager(int pairPlusWager) { this.pairPlusWager = pairPlusWager; }
@@ -26,6 +28,32 @@ public class PokerInfo implements Serializable {
     public ArrayList<Integer> get_shuffledCards() { return shuffled_cards; }
     public ArrayList<Integer> get_clientCards() { return client_cards; }
     public ArrayList<Integer> get_serverCards() { return server_cards; }
+
+    public void print_info() {
+        System.out.println("\n...PRINTING INFO ... \n");
+        System.out.println("Ante Wager is " + anteWager);
+        System.out.println("Pair plus wager is " + pairPlusWager);
+        System.out.println("Card Index is " + cardIndex);
+
+        // print cards
+        System.out.println("Shuffled Cards are ...");
+        for (int i = 0; i < 52; i++) {
+            System.out.print(shuffled_cards.get(i) + "|");
+        }
+        System.out.println("\nClient Cards are ...");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(client_cards.get(i) + "|");
+        }
+        System.out.println("\nServer Cards are ...");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(server_cards.get(i) + "|");
+        }
+        // print bool values
+        System.out.println("\nqueen High is " + queenHigh);
+        System.out.println("fold is " + fold);
+        System.out.println("winnings is " + winnings);
+        System.out.println("\n...END ...\n");
+    }
 
     // constructor
     PokerInfo(int anteWager, int pairPlusWager) {

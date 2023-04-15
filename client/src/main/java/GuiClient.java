@@ -95,6 +95,7 @@ public class GuiClient extends Application {
 	}
 
 	void display_results(Stage primaryStage) {
+		System.out.println("fold is " + clientConn.info.fold);
 		Label result = new Label("This is the results scene");
 		result.setAlignment(Pos.CENTER);
 		VBox components;
@@ -159,8 +160,8 @@ public class GuiClient extends Application {
 		});
 
 		fold.setOnAction(e -> {
-			display_results(primaryStage);
 			clientConn.info.fold = true;
+			display_results(primaryStage);
 		});
 
 		// Load the image
