@@ -28,8 +28,8 @@ import javafx.collections.FXCollections;
 public class GuiClient extends Application {
 
 	ListView<String> game_state2;
-	Client clientConnection;
-	PokerInfo clientPokerInfo;   // where data is sent and copied
+	Client clientConn;
+	// PokerInfo clientPokerInfo;   // where data is sent and copied
 	MenuBar menuBar;
 	ArrayList<Image> cardImages;
 	HBox dealerCards, dealerCardsHidden;
@@ -94,6 +94,35 @@ public class GuiClient extends Application {
 		launch(args);
 	}
 
+	void display_results(Stage primaryStage) {
+		Label result = new Label("This is the results scene");
+		result.setAlignment(Pos.CENTER);
+		VBox components;
+
+		if (clientConn.info.fold) {
+			int totalWager = clientConn.info.get_anteWager() + clientConn.info.get_paiPlusWager();
+			Label lost = new Label("You lost $" + totalWager);
+			Button play_again = new Button("Play Again");
+			components = new VBox(20, lost, play_again);
+		}
+		else if (clientConn.info.queenHigh) {
+			Label won = new Label("You won $" + clientConn.info.winnings);
+			Button play_again = new Button("Play Again");
+			components = new VBox(20, won, play_again);
+		}
+		else {
+			Label next_hand = new Label("Dealer does not have a queen high or better. " +
+					"Click to see dealer's next hand.");
+			Button nextHand_button = new Button("See next hand");
+			components = new VBox(20, next_hand, nextHand_button);
+		}
+		components.setAlignment(Pos.CENTER);
+		Scene scene = new Scene(components, 700, 700);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("This is a Client");
+		primaryStage.show();
+	}
+
 	void display_cards_scene(Stage primaryStage) {
 
 		create_menu_bar();
@@ -106,11 +135,15 @@ public class GuiClient extends Application {
 		HBox playWagerBox = new HBox(10, playWager, input, continue_);
 		playWagerBox.setAlignment(Pos.CENTER);
 		playWagerBox.setVisible(false);
+		Button seeResults = new Button("See Results");
+		seeResults.setOnAction(e -> display_results(primaryStage));
+		seeResults.setVisible(false);
 
 		continue_.setOnAction(e -> {
 			dealerCards.setVisible(true);
 			dealerCardsHidden.setVisible(false);
 			playWagerBox.setVisible(false);
+			seeResults.setVisible(true);
 		});
 
 		// Play or fold area
@@ -119,9 +152,15 @@ public class GuiClient extends Application {
 		Button play = new Button("PLAY");
 		VBox playOrFold = new VBox(10, chooseOne, fold, play);
 		playOrFold.setAlignment(Pos.CENTER);
+
 		play.setOnAction(e -> {
 			playWagerBox.setVisible(true);
 			playOrFold.setVisible(false);
+		});
+
+		fold.setOnAction(e -> {
+			display_results(primaryStage);
+			clientConn.info.fold = true;
 		});
 
 		// Load the image
@@ -137,13 +176,13 @@ public class GuiClient extends Application {
 		dealerCardsLabel.setStyle("-fx-text-fill: #FFFFFF");
 		Label cardsHidden = new Label("Dealer Cards: ");
 
-		clientPokerInfo.set_clientCards(clientConnection.clientPokerInfo.get_clientCards());
-        clientPokerInfo.set_serverCards(clientConnection.clientPokerInfo.get_serverCards());
+		// clientPokerInfo.set_clientCards(clientConn.clientPokerInfo.get_clientCards());
+        // clientPokerInfo.set_serverCards(clientConn.clientPokerInfo.get_serverCards());
 
 		// player cards
-		ImageView card1 = getCardImageView(clientPokerInfo.get_clientCards().get(0));
-		ImageView card2 = getCardImageView(clientPokerInfo.get_clientCards().get(1));
-		ImageView card3 = getCardImageView(clientPokerInfo.get_clientCards().get(2));
+		ImageView card1 = getCardImageView(clientConn.info.get_clientCards().get(0));
+		ImageView card2 = getCardImageView(clientConn.info.get_clientCards().get(1));
+		ImageView card3 = getCardImageView(clientConn.info.get_clientCards().get(2));
 		HBox playerCards = new HBox(10, playerCardsLabel, card1, card2, card3);
 
 		// dealer cards hidden
@@ -153,27 +192,25 @@ public class GuiClient extends Application {
 		dealerCardsHidden = new HBox(10, cardsHidden, hiddenCard1, hiddenCard2, hiddenCard3);
 
 		// dealer cards
-		ImageView dealerCard1 = getCardImageView(clientPokerInfo.get_serverCards().get(0));
-		ImageView dealerCard2 = getCardImageView(clientPokerInfo.get_serverCards().get(1));
-		ImageView dealerCard3 = getCardImageView(clientPokerInfo.get_serverCards().get(2));
+		ImageView dealerCard1 = getCardImageView(clientConn.info.get_serverCards().get(0));
+		ImageView dealerCard2 = getCardImageView(clientConn.info.get_serverCards().get(1));
+		ImageView dealerCard3 = getCardImageView(clientConn.info.get_serverCards().get(2));
 		dealerCards = new HBox(10, dealerCardsLabel, dealerCard1, dealerCard2, dealerCard3);
 		dealerCards.setVisible(false);
 
 		VBox mainBox = new VBox(20, dealerCardsHidden, dealerCards, playerCards);
-		// VBox mainBox = new VBox(150);
-		// mainBox.getChildren().addAll(dealerCardsHidden, dealerCards, playerCards);
 
 		GridPane gridPane = new GridPane();
 		gridPane.add(mainBox, 0, 0);
 		gridPane.setAlignment(Pos.CENTER);
 
 		// Set constraints to control the position of dealer and player cards
-		gridPane.setValignment(mainBox, VPos.TOP);
+		// gridPane.setValignment(mainBox, VPos.TOP);
 		// gridPane.setMargin(mainBox, new Insets(-10, 0, 0, 0)); // Adjust margin for dealerCards
 
 		// Wager and winnings areas
-		Label anteWagerLabel = new Label("Ante Wager: " + clientPokerInfo.get_anteWager());
-		Label pairPlusWagerLabel = new Label("Pair Plus Wager: " + clientPokerInfo.get_paiPlusWager());
+		Label anteWagerLabel = new Label("Ante Wager: " + clientConn.info.get_anteWager());
+		Label pairPlusWagerLabel = new Label("Pair Plus Wager: " + clientConn.info.get_paiPlusWager());
 		Label playerWinningsLabel = new Label("Player Winnings: ");
 		VBox wagerAndWinnings = new VBox(10, anteWagerLabel, pairPlusWagerLabel, playerWinningsLabel);
 		wagerAndWinnings.setAlignment(Pos.CENTER);
@@ -183,7 +220,8 @@ public class GuiClient extends Application {
 		TextArea gameInfo = new TextArea();
 		gameInfo.setEditable(false);
 		gameInfo.setPrefSize(50, 120);
-		VBox gameInfoArea = new VBox(10, playWagerBox, gameInfoLabel, gameInfo);
+		VBox gameInfoArea = new VBox(10, seeResults, playWagerBox, gameInfoLabel, gameInfo);
+		gameInfoArea.setAlignment(Pos.CENTER);
 
 		// Layout and scene setup
 		StackPane mainStack = new StackPane(pokerTableImage, gridPane);
@@ -191,17 +229,16 @@ public class GuiClient extends Application {
 		borderPane.setTop(menuBar);
 		borderPane.setLeft(wagerAndWinnings);
 		borderPane.setCenter(mainStack);
-		borderPane.setBottom(gameInfoArea);
+		borderPane.setBottom(gameInfoArea);   // gameInfoArea
 		borderPane.setRight(playOrFold);
 
+		// set up scene
 		Scene scene = new Scene(borderPane, 700, 700);
-
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
 	}
 
-	//
 	void display_wager_scene(Stage primaryStage) {
 		Label ante_wager = new Label("Please enter your ante wager in dollars");
 		ante_wager.setStyle("-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
@@ -242,8 +279,11 @@ public class GuiClient extends Application {
 		confirmChoice.setOnAction(e -> {
 			int wager1 = Integer.parseInt(ante_wager_input.getValue().toString());
 			int wager2 = Integer.parseInt(pairPlus_input.getValue().toString());
-			clientPokerInfo = new PokerInfo(wager1, wager2);
-			clientConnection.send(clientPokerInfo);
+			// clientPokerInfo = new PokerInfo(wager1, wager2);
+			clientConn.info.set_anteWager(wager1);
+			clientConn.info.set_pairPlusWager(wager2);
+			clientConn.send(clientConn.info);
+			// clientConn.send(clientPokerInfo);
 			//make the confirm choice button invisible
 			confirmChoice.setVisible(false);
 			//make the draw cards button visible
@@ -265,9 +305,8 @@ public class GuiClient extends Application {
 		heartImage.setFitHeight(40);   heartImage.setFitWidth(40);
 		diamondImage.setFitHeight(40); diamondImage.setFitWidth(40);
 
-		//create an hbox to hold these images
+		//create an hbox to hold these images and center
 		HBox imageBox = new HBox(10, spadeImage, clubImage, heartImage, diamondImage);
-		//center the hbox
 		imageBox.setAlignment(Pos.CENTER);
 
 		VBox allComponents = new VBox(10, imageBox, ante_wager, ante_wager_input, pairPlus_wager,
@@ -317,12 +356,12 @@ public class GuiClient extends Application {
 			System.out.println("Port Number is " + port_number);
 			System.out.println("IP Address is " + IP_addr);
 
-			clientConnection = new Client(data -> {
+			clientConn = new Client(data -> {
 				Platform.runLater(() -> {
 
 				});
 			}, port_number, IP_addr);
-			clientConnection.start();
+			clientConn.start();
 			display_wager_scene(primaryStage);
 		});
 

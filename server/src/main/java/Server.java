@@ -57,12 +57,22 @@ public class Server{
         int count;
         ObjectInputStream in;
         ObjectOutputStream out;
-        PokerInfo clientPokerInfo;
+        PokerInfo info;
+        int card_index = 0;
 
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
-            this.clientPokerInfo = new PokerInfo(0,0);
+            this.info = new PokerInfo(0,0);
+        }
+
+        public ArrayList<Integer> draw_three_cards(int card_index) {
+            ArrayList<Integer> three_cards = new ArrayList<>();
+            for (int i = card_index; i < card_index + 3; i++) {
+                three_cards.add(info.get_shuffledCards().get(i));
+                this.card_index++;
+            }
+            return three_cards;
         }
 
         public void selectCards() {
@@ -70,22 +80,10 @@ public class Server{
             ArrayList<Integer> shuffledCardDeck;
             shuffledCardDeck = card_deck;
             Collections.shuffle(shuffledCardDeck);
-            clientPokerInfo.set_shuffledCards(shuffledCardDeck);
+            info.set_shuffledCards(shuffledCardDeck);
 
-            // draw 3 cards for clients
-            ArrayList<Integer> cards1 = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                cards1.add(shuffledCardDeck.get(i));
-                System.out.println(cards1.get(i).toString());
-            }
-            clientPokerInfo.set_clientCards(cards1);
-
-            // draw 3 cards for server
-            ArrayList<Integer> cards2 = new ArrayList<>();
-            for (int i = 3; i < 6; i++) {
-                cards2.add(shuffledCardDeck.get(i));
-            }
-            clientPokerInfo.set_serverCards(cards2);
+            info.set_clientCards(draw_three_cards(card_index));
+            info.set_serverCards(draw_three_cards(card_index));
         }
 
         // sends info to client
@@ -108,6 +106,7 @@ public class Server{
                 in = new ObjectInputStream(connection.getInputStream());
                 out = new ObjectOutputStream(connection.getOutputStream());
                 connection.setTcpNoDelay(true);
+                selectCards();
             }
             catch(Exception e) {
                 System.out.println("Streams not open");
@@ -117,10 +116,17 @@ public class Server{
                 try {
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
-                    callback.accept("Client's ante wager is " + clientData.get_anteWager() +
-                                       "\nClient's pair plus wager is " + clientData.get_paiPlusWager());
-                    selectCards();
-                    send(clientPokerInfo);
+                    callback.accept("received data");
+                    // selectCards();
+                    info.set_anteWager(clientData.get_anteWager());
+                    info.set_pairPlusWager(clientData.get_paiPlusWager());
+                    info.fold = clientData.fold;
+                    if (!compute.queenOrHigher(info.get_serverCards())) {
+                        info.set_queenHigh(false);
+                    } else {
+                        info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
+                    }
+                    send(info);
                 }
                 catch(Exception e) {
                     callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
