@@ -19,6 +19,8 @@ public class PokerInfo implements Serializable {
     boolean newGame;
     boolean nextHand;
 
+    String gameInfoMessage;
+
     public void set_anteWager(int anteWager) { this.anteWager = anteWager; }
     public void set_pairPlusWager(int pairPlusWager) { this.pairPlusWager = pairPlusWager; }
     public void set_shuffledCards(ArrayList<Integer> shuffled_cards) { this.shuffled_cards = shuffled_cards; }
@@ -31,6 +33,14 @@ public class PokerInfo implements Serializable {
     public ArrayList<Integer> get_shuffledCards() { return shuffled_cards; }
     public ArrayList<Integer> get_clientCards() { return client_cards; }
     public ArrayList<Integer> get_serverCards() { return server_cards; }
+
+    public String getGameMessage() {
+        return gameInfoMessage;
+    }
+
+    public void setGameMessage(String gameInfoMessage) {
+        this.gameInfoMessage = gameInfoMessage;
+    }
 
     public void print_info() {
         System.out.println("\n...PRINTING INFO ... \n");

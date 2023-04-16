@@ -158,6 +158,7 @@ public class Server{
 
                     if (clientData.fold) {
                         info.winnings = info.get_anteWager() + info.get_paiPlusWager();
+                        info.setGameMessage("Player has folded.");
                     }
                     else {
                         if (clientData.newGame) {

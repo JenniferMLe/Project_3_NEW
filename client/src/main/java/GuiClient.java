@@ -244,6 +244,7 @@ public class GuiClient extends Application {
 		fold.setOnAction(e -> {
 			clientConn.info.fold = true;
 			display_results(primaryStage);
+
 		});
 
 		// Load the image
@@ -298,6 +299,8 @@ public class GuiClient extends Application {
 		// Game info area
 		Label gameInfoLabel = new Label("Game Info:");
 		TextArea gameInfo = new TextArea();
+//		gameInfo.setText(clientConn.info.getGameMessage());
+
 		gameInfo.setEditable(false);
 		gameInfo.setPrefSize(50, 120);
 		VBox gameInfoArea = new VBox(10, seeResults, playWagerBox, gameInfoLabel, gameInfo);
