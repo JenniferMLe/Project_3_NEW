@@ -135,6 +135,8 @@ public class Server{
                     PokerInfo clientData = (PokerInfo) in.readObject();
                     callback.accept("received data");
 
+
+
                     System.out.println("newGame is " + clientData.newGame);
                     if (clientData.newGame) {
                         this.info = new PokerInfo(0,0);
