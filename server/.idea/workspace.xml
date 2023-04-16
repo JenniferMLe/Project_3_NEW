@@ -12,14 +12,12 @@
       <change beforePath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GuiServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GuiServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GuiServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GuiServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/compute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/compute.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Server$TheServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$TheServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/compute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/compute.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +82,7 @@
       <workItem from="1681585536331" duration="42000" />
       <workItem from="1681585582712" duration="38000" />
       <workItem from="1681594990488" duration="3000" />
-      <workItem from="1681595066245" duration="8636000" />
+      <workItem from="1681595066245" duration="15617000" />
     </task>
     <task id="LOCAL-00001" summary="added some changes">
       <created>1681576436882</created>
@@ -93,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681576436882</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added some changes">
+      <created>1681606092442</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1681606092442</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

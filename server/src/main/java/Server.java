@@ -134,18 +134,24 @@ public class Server{
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
                     callback.accept("received data");
-
                     System.out.println("newGame is " + clientData.newGame);
+
                     if (clientData.newGame) {
                         this.info = new PokerInfo(0,0);
                         shuffleCards();
                         info.set_anteWager(clientData.get_anteWager());
                         info.set_pairPlusWager(clientData.get_paiPlusWager());
                     }
-                    info.fold = clientData.fold;
+                    else if (clientData.nextHand) {
+                        info.server_cards = draw_three_cards(info.cardIndex);
+                        info.nextHand = false;
+                        info.set_anteWager(clientData.get_anteWager());
+                    }
+
                     if (!compute.queenOrHigher(info.get_serverCards())) {
                         info.set_queenHigh(false);
                     } else {
+                        info.set_queenHigh(true);
                         info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
                     }
                     send(info);
