@@ -4,13 +4,6 @@ import java.util.Collections;
 
 public class compute {
 
-    static ArrayList<Integer> shuffleCards(ArrayList<Integer> orderedDeck) {
-        ArrayList<Integer> shuffledDeck = new ArrayList<>();
-        shuffledDeck = orderedDeck;
-        Collections.shuffle(shuffledDeck);
-        return shuffledDeck;
-    }
-
     static boolean queenOrHigher(ArrayList<Integer> dealerCards) {
         for (int card: dealerCards) {
             if (card % 13 == 11 || card % 13 == 12)  {
@@ -20,26 +13,73 @@ public class compute {
         return false;
     }
 
-    static int winnings(ArrayList<Integer> playerCards,
-                        int anteWager, int playWager) {
+    static boolean straight(ArrayList<Integer> cards) {
+        Collections.sort(cards);
+        return ((cards.get(0) == cards.get(1) + 1 && cards.get(1) == cards.get(2) + 1) ||
+                (cards.get(0) == cards.get(1) - 1 && cards.get(1) == cards.get(2) - 1));
+    }
 
-        int totalWager = anteWager + playWager;
+    static boolean flush(ArrayList<Integer> cards) {
+        return (((cards.get(0) / 13) == (cards.get(1) / 13)) &&
+                ((cards.get(1) / 13) == (cards.get(2) / 13)));
+    }
 
-        int num1 = playerCards.get(0);
-        int num2 = playerCards.get(1);
-        int num3 = playerCards.get(2);
+    static boolean threeOfAKind(ArrayList<Integer> cards) {
+        return (((cards.get(0) % 13) == (cards.get(1) % 13)) &&
+                ((cards.get(1) % 13) == (cards.get(2) % 13)));
+    }
 
-        boolean straight = (num1 == num2 + 1 && num2 == num3 + 1) || (num1 == num2 - 1 && num2 == num3 - 1);
-        boolean flush = ((num1 / 13) == (num2 / 13)) && ((num2 / 13) == (num3 / 13));
-        boolean threeOfAKind = ((num1 % 13) == (num2 % 13)) && ((num2 % 13) == (num3 % 13));
-        boolean pair = ((num1 % 13) == (num2 % 13)) ^ ((num2 % 13) == (num3 % 13));
+    static boolean pair(ArrayList<Integer> cards) {
+        boolean bool1 = (((cards.get(0) % 13) == (cards.get(1) % 13)) ^
+                ((cards.get(1) % 13) == (cards.get(2) % 13)));
 
-        if (straight && flush) { return totalWager + (totalWager * 40); }
-        else if (threeOfAKind) { return totalWager + (totalWager * 30); }
-        else if (straight)     { return totalWager + (totalWager * 6); }
-        else if (flush)        { return totalWager + (totalWager * 3); }
-        else if (pair)         { return totalWager + totalWager; }
-        else { return 0; }
+        boolean bool2 = (cards.get(0) % 13) == (cards.get(2) % 13);
+
+        return bool1 || bool2;
+    }
+
+    static int pairPlusWinnings(PokerInfo info) {
+        int wager = info.get_paiPlusWager();
+
+        if (info.get_paiPlusWager() > 0) {
+            if (straight(info.client_cards) && flush(info.client_cards)) { return wager * 40; }
+            else if (threeOfAKind(info.client_cards)) { return wager * 30; }
+            else if (straight(info.client_cards))     { return wager * 6; }
+            else if (flush(info.client_cards))        { return wager * 3; }
+            else if (pair(info.client_cards))         { return wager; }
+            else                                      { return info.get_paiPlusWager() * -1; }
+        }
+        return 0;
+    }
+
+    static int winnings(PokerInfo info) {
+
+        int totalWager = info.get_anteWager() + info.get_anteWager();
+
+        int clientHand = 0;
+        int serverHand = 0;
+
+        if (straight(info.client_cards) && flush(info.client_cards)) { clientHand = 5; }
+        else if (threeOfAKind(info.client_cards)) { clientHand = 4; }
+        else if (straight(info.client_cards))     { clientHand = 3; }
+        else if (flush(info.client_cards))        { clientHand = 2; }
+        else if (pair(info.client_cards))         { clientHand = 1; }
+
+        if (straight(info.server_cards) && flush(info.server_cards)) { clientHand = 5; }
+        else if (threeOfAKind(info.server_cards)) { serverHand = 4; }
+        else if (straight(info.server_cards))     { serverHand = 3; }
+        else if (flush(info.server_cards))        { serverHand = 2; }
+        else if (pair(info.server_cards))         { serverHand = 1; }
+
+        if (serverHand > clientHand) {
+            return totalWager * -1;
+        }
+        else if (serverHand < clientHand) {
+            return totalWager;
+        }
+        else {
+            return 0;
+        }
     }
 }
 

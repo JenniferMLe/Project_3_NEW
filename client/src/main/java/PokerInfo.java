@@ -14,6 +14,7 @@ public class PokerInfo implements Serializable {
     boolean queenHigh;
     boolean fold;
     int winnings;
+    int winningsPair;
     int cardIndex;
     boolean newGame;
     boolean nextHand;
@@ -54,6 +55,7 @@ public class PokerInfo implements Serializable {
         System.out.println("\nqueen High is " + queenHigh);
         System.out.println("fold is " + fold);
         System.out.println("winnings is " + winnings);
+        System.out.println("winnings from pair plus is " + winningsPair);
         System.out.println("\n...END ...\n");
     }
 

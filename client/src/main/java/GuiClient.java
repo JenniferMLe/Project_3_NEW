@@ -1,15 +1,11 @@
 import javafx.application.Application;
-
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
-import javafx.geometry.Insets;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.HBox;
@@ -19,16 +15,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.geometry.VPos;
 import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 //yo what up this is a test
 public class GuiClient extends Application {
 
-	ListView<String> game_state2;
 	Client clientConn;
 	MenuBar menuBar;
 	ArrayList<Image> cardImages;
@@ -125,33 +121,75 @@ public class GuiClient extends Application {
 		exit_game.setOnAction(e -> System.exit(0));
 
 		if (clientConn.info.fold) {
-			int totalWager = clientConn.info.get_anteWager() + clientConn.info.get_paiPlusWager();
-			Label lost = new Label("You lost $" + totalWager);
+			Label lost = new Label("You folded and lost $" + (clientConn.info.winnings * -1));
 			components = new VBox(20, lost, playExit);
 		}
 		else if (clientConn.info.queenHigh) {
-			Label won = new Label("You won $" + clientConn.info.winnings);
-			components = new VBox(20, won, playExit);
+			Label label;
+			if (clientConn.info.winnings > 0) {
+				label = new Label("You beat the dealer. You win $" + clientConn.info.winnings);
+			}
+			else if (clientConn.info.winningsPair < 0) {
+				label = new Label("The dealer beat you. You lost $" + (clientConn.info.winnings * -1));
+			}
+			else {
+				label = new Label("You tied with the dealer");
+			}
+			Label pairPlus;
+			if (clientConn.info.get_paiPlusWager() > 0 && clientConn.info.winningsPair > 0) {
+				pairPlus = new Label("You won $" + clientConn.info.winningsPair +
+						" from your pair plus wager");
+			}
+			else {
+				pairPlus = new Label("You lost $" + (clientConn.info.winningsPair * -1) +
+						" from your pair plus wager");
+			}
+			components = new VBox(15, label, pairPlus, playExit);
 		}
 		else {
-			Label next_hand = new Label("Dealer does not have a queen high or better");
-			Label ante_wager = new Label("You can change your ante wager here or keep it the same");
-			// Spinner<Integer> input = new Spinner<>(5, 25, 5);
+			Label queenHigh = new Label("Dealer does not have a queen high or better.");
+			Label enter =  new Label("Press enter to continue or change your wagers below");
+
+			Label ante_wager = new Label("Ante Wager");
 			TextField input = new TextField();
 			input.setText(Integer.toString(clientConn.info.get_anteWager()));
 			input.setMaxWidth(100);
+			HBox wager1 = new HBox(10, ante_wager, input);
+			wager1.setAlignment(Pos.CENTER);
 
-			Button nextHand_button = new Button("See next hand");
-			nextHand_button.setOnAction(e -> {
-				clientConn.info.set_anteWager(Integer.parseInt(input.getText().toString()));
-				clientConn.info.nextHand = true;
-				clientConn.send(clientConn.info);
-				display_cards_scene(primaryStage);
-			});
-			components = new VBox(15, next_hand, ante_wager, input, nextHand_button);
+			Label pair_plus = new Label("Pair Plus");
+			TextField input2 = new TextField();
+			input2.setText(Integer.toString(clientConn.info.get_paiPlusWager()));
+			input2.setMaxWidth(100);
+			HBox wager2 = new HBox(10, pair_plus, input2);
+			wager2.setAlignment(Pos.CENTER);
+
+			EventHandler<ActionEvent> myHandler = new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent e) {
+					int wager1 = Integer.parseInt(input.getText());
+					int wager2 = Integer.parseInt(input2.getText());
+					if ((wager1 < 5 || wager1 > 25) || (wager2 != 0 && (wager2 < 5 || wager2 > 25))){
+						Alert alert = new Alert(Alert.AlertType.WARNING,
+								"Your ante wager and pair plus wager if not $0 cannot" +
+										" be less than $5 or greater than $25 ");
+						alert.showAndWait();
+					}
+					else {
+						clientConn.info.set_anteWager(wager1);
+						clientConn.info.set_pairPlusWager(wager2);
+						clientConn.info.nextHand = true;
+						clientConn.send(clientConn.info);
+						display_cards_scene(primaryStage);
+					}
+				}
+			};
+			input.setOnAction(myHandler);
+			input2.setOnAction(myHandler);
+
+			components = new VBox(15, queenHigh, enter, wager1, wager2);
 		}
 		components.setAlignment(Pos.CENTER);
-		Scene scene = new Scene(components, 700, 700);
+		Scene scene = new Scene(components, 600, 600);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
@@ -162,12 +200,14 @@ public class GuiClient extends Application {
 		create_menu_bar();
 
 		// play wager area
-		Label playWager = new Label("Enter your play wager. This must\nbe equal to your ante wager.");
+		Label playWager = new Label("Make your play wager. This must be equal to your ante wager.");
 		TextField input = new TextField();
+		input.setText(Integer.toString(clientConn.info.get_anteWager()));
 		input.setMaxWidth(100);
+		Label enter = new Label("Press enter to continue");
 
 		// HBox to hold components
-		HBox playWagerBox = new HBox(10, playWager, input);
+		VBox playWagerBox = new VBox(5, playWager, input, enter);
 		playWagerBox.setAlignment(Pos.CENTER);
 		playWagerBox.setVisible(false);
 
@@ -383,6 +423,7 @@ public class GuiClient extends Application {
 		enter_IP_addr.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
 		TextField IP_addr_input = new TextField();
+		IP_addr_input.setText("127.0.0.1");
 		IP_addr_input.setMaxWidth(200);
 		IP_addr_input.setStyle("-fx-font-size: 14px;");
 

@@ -151,30 +151,35 @@ public class Server{
                         callback.accept("client #" + count + " is playing another hand");
                     }
 
-                    callback.accept("client # " + count + " ante wager: $" + clientData.get_anteWager() + " pair plus wager: $" + clientData.get_paiPlusWager());
+                    callback.accept("client # " + count + " ante wager: $" +
+                            clientData.get_anteWager() + " pair plus wager: $" + clientData.get_paiPlusWager());
                     System.out.println("newGame is " + clientData.newGame);
                     info = clientData;
 
-                    if (clientData.newGame) {
-                        this.info = new PokerInfo(0,0);
-                        shuffleCards();
-                        info.set_anteWager(clientData.get_anteWager());
-                        info.set_pairPlusWager(clientData.get_paiPlusWager());
+                    if (clientData.fold) {
+                        info.winnings = info.get_anteWager() + info.get_paiPlusWager();
                     }
-                    else if (clientData.nextHand) {
-                        info.server_cards = draw_three_cards(info.cardIndex);
-                        info.nextHand = false;
-                        info.set_anteWager(clientData.get_anteWager());
-                    }
-
-                    if (!compute.queenOrHigher(info.get_serverCards())) {
-                        info.set_queenHigh(false);
-                    } else {
-                        info.set_queenHigh(true);
-                        info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
+                    else {
+                        if (clientData.newGame) {
+                            this.info = new PokerInfo(0, 0);
+                            shuffleCards();
+                            info.set_anteWager(clientData.get_anteWager());
+                            info.set_pairPlusWager(clientData.get_paiPlusWager());
+                        } else if (clientData.nextHand) {
+                            info.server_cards = draw_three_cards(info.cardIndex);
+                            info.nextHand = false;
+                            info.set_anteWager(clientData.get_anteWager());
+                            info.set_pairPlusWager(clientData.get_paiPlusWager());
+                        }
+                        if (!compute.queenOrHigher(info.get_serverCards())) {
+                            info.set_queenHigh(false);
+                        } else {
+                            info.set_queenHigh(true);
+                            info.winnings = compute.winnings(info);
+                            info.winningsPair= compute.pairPlusWinnings(info);
+                        }
                     }
                     send(info);
-
                 }
                 catch(Exception e) {
                     callback.accept("client: " + count + " left the game!");
