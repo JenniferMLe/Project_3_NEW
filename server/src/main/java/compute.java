@@ -13,7 +13,7 @@ public class compute {
 
     static boolean queenOrHigher(ArrayList<Integer> dealerCards) {
         for (int card: dealerCards) {
-            if (card % 13 == 11 || card % 13 == 12 || card % 13 == 0)  {
+            if (card % 13 == 11 || card % 13 == 12)  {
                 return true;
             }
         }

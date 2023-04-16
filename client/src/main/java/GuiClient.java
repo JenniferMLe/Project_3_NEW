@@ -29,7 +29,6 @@ public class GuiClient extends Application {
 
 	ListView<String> game_state2;
 	Client clientConn;
-	// PokerInfo clientPokerInfo;   // where data is sent and copied
 	MenuBar menuBar;
 	ArrayList<Image> cardImages;
 	HBox dealerCards, dealerCardsHidden;
@@ -134,10 +133,18 @@ public class GuiClient extends Application {
 			components = new VBox(20, won, playExit);
 		}
 		else {
-			Label next_hand = new Label("Dealer does not have a queen high or better. " +
-					"Click to see dealer's next hand.");
+			Label next_hand = new Label("Dealer does not have a queen high or better");
+			Label ante_wager = new Label("enter your ante wager for next hand");
+			Spinner<Integer> input = new Spinner<>(5, 25, 5);
+			input.setMaxWidth(100);
 			Button nextHand_button = new Button("See next hand");
-			components = new VBox(20, next_hand, nextHand_button);
+			nextHand_button.setOnAction(e -> {
+				clientConn.info.set_anteWager(Integer.parseInt(input.getValue().toString()));
+				clientConn.info.nextHand = true;
+				clientConn.send(clientConn.info);
+				display_cards_scene(primaryStage);
+			});
+			components = new VBox(15, next_hand, ante_wager, input, nextHand_button);
 		}
 		components.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(components, 700, 700);
@@ -204,9 +211,6 @@ public class GuiClient extends Application {
 		Label dealerCardsLabel = new Label("Dealer Cards:");
 		dealerCardsLabel.setStyle("-fx-text-fill: #FFFFFF");
 		Label cardsHidden = new Label("Dealer Cards: ");
-
-		// clientPokerInfo.set_clientCards(clientConn.clientPokerInfo.get_clientCards());
-		// clientPokerInfo.set_serverCards(clientConn.clientPokerInfo.get_serverCards());
 
 		// player cards
 		ImageView card1 = getCardImageView(clientConn.info.get_clientCards().get(0));

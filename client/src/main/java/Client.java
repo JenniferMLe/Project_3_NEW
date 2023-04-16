@@ -12,6 +12,7 @@ public class Client extends Thread{
     ObjectOutputStream out;
     ObjectInputStream in;
 
+    // UNDO UNTIL HERE
     private Consumer<Serializable> callback;
     int port_number = 0;
     String IP_addr = "";
