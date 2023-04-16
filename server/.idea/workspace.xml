@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf7db38-6e8b-4986-95f9-62e6a310b58f" name="Changes" comment="added some changes">
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/target/classes/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/Client.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/compute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/compute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/compute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/compute.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +74,7 @@
       <workItem from="1681585536331" duration="42000" />
       <workItem from="1681585582712" duration="38000" />
       <workItem from="1681594990488" duration="3000" />
-      <workItem from="1681595066245" duration="15617000" />
+      <workItem from="1681595066245" duration="20627000" />
     </task>
     <task id="LOCAL-00001" summary="added some changes">
       <created>1681576436882</created>
@@ -98,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681606092442</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added some changes">
+      <created>1681614174922</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681614174922</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
