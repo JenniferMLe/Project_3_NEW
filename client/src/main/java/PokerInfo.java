@@ -11,10 +11,11 @@ public class PokerInfo implements Serializable {
     ArrayList<Integer> shuffled_cards;
     ArrayList<Integer> client_cards;
     ArrayList<Integer> server_cards;
-    boolean queenHigh = false;
-    boolean fold = false;
-    int winnings = 0;
-    int cardIndex = 0;
+    boolean queenHigh;
+    boolean fold;
+    int winnings;
+    int cardIndex;
+    boolean newGame;
 
     public void set_anteWager(int anteWager) { this.anteWager = anteWager; }
     public void set_pairPlusWager(int pairPlusWager) { this.pairPlusWager = pairPlusWager; }
@@ -53,6 +54,14 @@ public class PokerInfo implements Serializable {
         System.out.println("fold is " + fold);
         System.out.println("winnings is " + winnings);
         System.out.println("\n...END ...\n");
+    }
+
+    public void reset() {
+        queenHigh = false;
+        fold = false;
+        winnings = 0;
+        cardIndex = 0;
+        newGame = false;
     }
 
     // constructor

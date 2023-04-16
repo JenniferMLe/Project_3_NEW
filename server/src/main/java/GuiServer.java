@@ -26,13 +26,14 @@ public class GuiServer extends Application {
 	void display_server_scene(Stage primaryStage) {
 		Label state = new Label("State of Game");
 
-// Add radio buttons to turn server on and off
+		// Add radio buttons to turn server on and off
 		RadioButton on_button = new RadioButton("Server ON");
 		RadioButton off_button = new RadioButton("Server OFF");
 		ToggleGroup toggle_group = new ToggleGroup();
 		on_button.setToggleGroup(toggle_group);
 		off_button.setToggleGroup(toggle_group);
 		on_button.setSelected(true);
+
 		toggle_group.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
 			if (newVal == on_button) {
 				serverConnection.setAllowClients(true);

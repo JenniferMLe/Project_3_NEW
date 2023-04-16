@@ -35,6 +35,7 @@ public class GuiClient extends Application {
 	HBox dealerCards, dealerCardsHidden;
 
 	//initialize the pokertable image variable as global
+	// HERE...
 
 	private void loadCardImages() {
 		cardImages = new ArrayList<>();
@@ -111,21 +112,26 @@ public class GuiClient extends Application {
 	}
 
 	void display_results(Stage primaryStage) {
-		System.out.println("fold is " + clientConn.info.fold);
-		Label result = new Label("This is the results scene");
-		result.setAlignment(Pos.CENTER);
 		VBox components;
+		Button play_again = new Button("Play Again");
+		Button exit_game = new Button("Exit Game");
+		HBox playExit = new HBox(20, play_again, exit_game);
+		playExit.setAlignment(Pos.CENTER);
+
+		play_again.setOnAction( e -> {
+			clientConn.info.reset();
+			display_wager_scene(primaryStage);
+		});
+		exit_game.setOnAction(e -> System.exit(0));
 
 		if (clientConn.info.fold) {
 			int totalWager = clientConn.info.get_anteWager() + clientConn.info.get_paiPlusWager();
 			Label lost = new Label("You lost $" + totalWager);
-			Button play_again = new Button("Play Again");
-			components = new VBox(20, lost, play_again);
+			components = new VBox(20, lost, playExit);
 		}
 		else if (clientConn.info.queenHigh) {
 			Label won = new Label("You won $" + clientConn.info.winnings);
-			Button play_again = new Button("Play Again");
-			components = new VBox(20, won, play_again);
+			components = new VBox(20, won, playExit);
 		}
 		else {
 			Label next_hand = new Label("Dealer does not have a queen high or better. " +
@@ -144,18 +150,20 @@ public class GuiClient extends Application {
 
 		create_menu_bar();
 
-		//event handler for menu bar
-
-
-
 		// play wager area
 		Label playWager = new Label("Enter your play wager. This must\nbe equal to your ante wager.");
 		TextField input = new TextField();
 		input.setMaxWidth(100);
+
+		// button to continue after placing play wager
 		Button continue_ = new Button("Continue");
+
+		// HBox to hold components
 		HBox playWagerBox = new HBox(10, playWager, input, continue_);
 		playWagerBox.setAlignment(Pos.CENTER);
 		playWagerBox.setVisible(false);
+
+		// So users can choose when to see results
 		Button seeResults = new Button("See Results");
 		seeResults.setOnAction(e -> display_results(primaryStage));
 		seeResults.setVisible(false);
@@ -300,15 +308,16 @@ public class GuiClient extends Application {
 		confirmChoice.setOnAction(e -> {
 			int wager1 = Integer.parseInt(ante_wager_input.getValue().toString());
 			int wager2 = Integer.parseInt(pairPlus_input.getValue().toString());
-			// clientPokerInfo = new PokerInfo(wager1, wager2);
+
 			clientConn.info.set_anteWager(wager1);
 			clientConn.info.set_pairPlusWager(wager2);
+			clientConn.info.newGame = true;
 			clientConn.send(clientConn.info);
-			// clientConn.send(clientPokerInfo);
-			//make the confirm choice button invisible
-			confirmChoice.setVisible(false);
-			//make the draw cards button visible
-			draw_cards.setVisible(true);
+
+			confirmChoice.setVisible(false);  //make the confirm choice button invisible
+			draw_cards.setVisible(true);      //make the draw cards button visible
+			clientConn.info.newGame = false;
+
 			//create event handler for the draw cards button
 			draw_cards.setOnAction(e1 -> {
 				display_cards_scene(primaryStage);
@@ -335,7 +344,7 @@ public class GuiClient extends Application {
 
 		allComponents.setAlignment(Pos.CENTER);
 
-		Scene scene = new Scene(allComponents, 600, 600);
+		Scene scene = new Scene(allComponents, 500, 500);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
@@ -394,7 +403,7 @@ public class GuiClient extends Application {
 		components.setMinHeight(400);
 		components.setFillWidth(true);
 
-		Scene scene = new Scene(components, 400, 400);
+		Scene scene = new Scene(components, 500, 500);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

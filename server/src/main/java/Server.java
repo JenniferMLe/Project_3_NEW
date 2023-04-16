@@ -81,7 +81,7 @@ public class Server{
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
-            this.info = new PokerInfo(0,0);
+            // this.info = new PokerInfo(0,0);
         }
 
         public ArrayList<Integer> draw_three_cards(int card_index) {
@@ -93,7 +93,7 @@ public class Server{
             return three_cards;
         }
 
-        public void selectCards() {
+        public void shuffleCards() {
             // shuffle deck
             ArrayList<Integer> shuffledCardDeck;
             shuffledCardDeck = card_deck;
@@ -111,7 +111,7 @@ public class Server{
                 System.out.println("Sending to client: " + instance.get_clientCards().get(0));
                 //another print statment to check what is being sent to the client from the server
                 System.out.println("Sending to client LOL m8 : " + instance.get_serverCards().get(0));
-
+                instance.print_info();
                 out.writeObject(instance);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -124,7 +124,6 @@ public class Server{
                 in = new ObjectInputStream(connection.getInputStream());
                 out = new ObjectOutputStream(connection.getOutputStream());
                 connection.setTcpNoDelay(true);
-                selectCards();
             }
             catch(Exception e) {
                 System.out.println("Streams not open");
@@ -134,19 +133,21 @@ public class Server{
                 try {
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
-                    // this.info = (PokerInfo) in.readObject();
                     callback.accept("received data");
-                    // selectCards();
-                    info.set_anteWager(clientData.get_anteWager());
-                    info.set_pairPlusWager(clientData.get_paiPlusWager());
-                    info.fold = clientData.fold;
 
+                    System.out.println("newGame is " + clientData.newGame);
+                    if (clientData.newGame) {
+                        this.info = new PokerInfo(0,0);
+                        shuffleCards();
+                        info.set_anteWager(clientData.get_anteWager());
+                        info.set_pairPlusWager(clientData.get_paiPlusWager());
+                    }
+                    info.fold = clientData.fold;
                     if (!compute.queenOrHigher(info.get_serverCards())) {
                         info.set_queenHigh(false);
                     } else {
                         info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
                     }
-                    info.print_info();
                     send(info);
                 }
                 catch(Exception e) {

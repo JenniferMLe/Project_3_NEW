@@ -37,10 +37,9 @@ public class Client extends Thread{
             try {
                 // gets info from server
                 PokerInfo serverData = (PokerInfo) in.readObject();
+                serverData.print_info();
                 callback.accept(serverData);
-                // serverData.print_info();
                 info = serverData;
-                info.print_info();
             } catch (Exception e) { }
         }
     }

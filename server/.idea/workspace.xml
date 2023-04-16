@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf7db38-6e8b-4986-95f9-62e6a310b58f" name="Changes" comment="added some changes">
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GuiServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GuiServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/GuiServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GuiServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$TheServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$TheServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server.class" afterDir="false" />
@@ -55,7 +61,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/sebastiankowalczyk/Desktop/Project_3_NEW/server&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jenniferle/Downloads/CS 342/Project 3/server&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -77,6 +83,8 @@
       <workItem from="1681580832314" duration="3799000" />
       <workItem from="1681585536331" duration="42000" />
       <workItem from="1681585582712" duration="38000" />
+      <workItem from="1681594990488" duration="3000" />
+      <workItem from="1681595066245" duration="8636000" />
     </task>
     <task id="LOCAL-00001" summary="added some changes">
       <created>1681576436882</created>
