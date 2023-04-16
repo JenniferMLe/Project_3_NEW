@@ -151,7 +151,7 @@ public class Server{
                         callback.accept("client #" + count + " is playing another hand");
                     }
 
-                    callback.accept("client # " + count + " ante wager: " + clientData.get_anteWager() + " pair plus wager: " + clientData.get_paiPlusWager());
+                    callback.accept("client # " + count + " ante wager: $" + clientData.get_anteWager() + " pair plus wager: $" + clientData.get_paiPlusWager());
                     System.out.println("newGame is " + clientData.newGame);
                     info = clientData;
 
