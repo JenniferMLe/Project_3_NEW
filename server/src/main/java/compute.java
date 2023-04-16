@@ -71,6 +71,9 @@ public class compute {
         else if (flush(info.server_cards))        { serverHand = 2; }
         else if (pair(info.server_cards))         { serverHand = 1; }
 
+        System.out.println("\nClient Hand is " + clientHand);
+        System.out.println("Server Hand is " + serverHand);
+
         if (serverHand > clientHand) {
             return totalWager * -1;
         }
