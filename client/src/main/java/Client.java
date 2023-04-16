@@ -41,6 +41,7 @@ public class Client extends Thread{
                 serverData.print_info();
                 callback.accept(serverData);
                 info = serverData;
+                info.gameInfoMessage = serverData.getGameMessage();
             } catch (Exception e) { }
         }
     }
