@@ -121,6 +121,7 @@ public class GuiClient extends Application {
 		exit_game.setOnAction(e -> System.exit(0));
 
 		if (clientConn.info.fold) {
+			System.out.println("WINNINGS IS " + clientConn.info.winnings);
 			Label lost = new Label("You folded and lost $" + (clientConn.info.winnings * -1));
 			components = new VBox(20, lost, playExit);
 		}
@@ -129,20 +130,23 @@ public class GuiClient extends Application {
 			if (clientConn.info.winnings > 0) {
 				label = new Label("You beat the dealer. You win $" + clientConn.info.winnings);
 			}
-			else if (clientConn.info.winningsPair < 0) {
+			else if (clientConn.info.winnings < 0) {
 				label = new Label("The dealer beat you. You lost $" + (clientConn.info.winnings * -1));
 			}
 			else {
 				label = new Label("You tied with the dealer");
 			}
 			Label pairPlus;
-			if (clientConn.info.get_paiPlusWager() > 0 && clientConn.info.winningsPair > 0) {
-				pairPlus = new Label("You won $" + clientConn.info.winningsPair +
-						" from your pair plus wager");
-			}
-			else {
-				pairPlus = new Label("You lost $" + (clientConn.info.winningsPair * -1) +
-						" from your pair plus wager");
+			if (clientConn.info.get_paiPlusWager() > 0) {
+				if (clientConn.info.winningsPair > 0) {
+					pairPlus = new Label("You won $" + clientConn.info.winningsPair +
+							" from your pair plus wager");
+				} else {
+					pairPlus = new Label("You lost $" + (clientConn.info.winningsPair * -1) +
+							" from your pair plus wager");
+				}
+			} else {
+				pairPlus = new Label("");
 			}
 			components = new VBox(15, label, pairPlus, playExit);
 		}
@@ -243,8 +247,8 @@ public class GuiClient extends Application {
 
 		fold.setOnAction(e -> {
 			clientConn.info.fold = true;
+			clientConn.send(clientConn.info);
 			display_results(primaryStage);
-
 		});
 
 		// Load the image
