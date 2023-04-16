@@ -21,6 +21,10 @@ public class Server{
     private Consumer<Serializable> callback;
     int port_number;
 
+    int TotalCountClients = 0;
+
+    Set<String> uniqueClients = new HashSet<>();
+
     //boolean property to control client connections
     private volatile boolean allowClients = true;
     // Add a setter method for the boolean property
@@ -58,6 +62,8 @@ public class Server{
                             clients.add(c);
                             c.start();
                             count++;
+                            TotalCountClients++;
+                            callback.accept("Total number of clients: " + TotalCountClients);
                         } else {
                             Thread.sleep(100);
                         }
@@ -78,10 +84,14 @@ public class Server{
         ObjectOutputStream out;
         PokerInfo info;
 
+        String uniqueId;
+
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
             // this.info = new PokerInfo(0,0);
+            this.uniqueId = s.getInetAddress().toString() + ":" + s.getPort();
+
         }
 
         public ArrayList<Integer> draw_three_cards(int card_index) {
@@ -133,7 +143,15 @@ public class Server{
                 try {
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
-                    callback.accept("received data");
+
+                    if (!uniqueClients.contains(uniqueId)) {
+                        uniqueClients.add(uniqueId);
+                    } else {
+                        // Print callback statement if the same client is playing another hand
+                        callback.accept("client #" + count + " is playing another hand");
+                    }
+
+                    callback.accept("client # " + count + " ante wager: $" + clientData.get_anteWager() + " pair plus wager: $" + clientData.get_paiPlusWager());
                     System.out.println("newGame is " + clientData.newGame);
                     info = clientData;
 
@@ -156,10 +174,13 @@ public class Server{
                         info.winnings = compute.winnings(info.client_cards, info.get_anteWager(), info.get_paiPlusWager());
                     }
                     send(info);
+
                 }
                 catch(Exception e) {
-                    callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
+                    callback.accept("client: " + count + " left the game!");
+                    TotalCountClients--;
                     clients.remove(this);
+                    callback.accept("Total number of clients: " + TotalCountClients);
                     break;
                 }
             }
