@@ -198,6 +198,13 @@ public class Server{
                             info.winningsPair= compute.pairPlusWinnings(info);
                         }
                     }
+
+                    if (info.winnings > 0) {
+                        callback.accept("client # " + count + " has won $" + info.winnings);
+                    } else {
+                        callback.accept("client # " + count + " has lost $" + (-info.winnings));
+                    }
+
                     send(info);
                 }
                 catch(Exception e) {
