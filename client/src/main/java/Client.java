@@ -38,11 +38,10 @@ public class Client extends Thread{
             try {
                 // gets info from server
                 PokerInfo serverData = (PokerInfo) in.readObject();
-                // serverData.print_info();
+                serverData.print_info();
                 callback.accept(serverData);
                 info = serverData;
-                info.print_info();
-                info.shuffled_cards = serverData.shuffled_cards;
+                // info.print_info();
                 info.gameInfoMessage = serverData.getGameMessage();
             } catch (Exception e) { }
         }

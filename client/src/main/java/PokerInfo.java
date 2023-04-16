@@ -43,7 +43,7 @@ public class PokerInfo implements Serializable {
     }
 
     public void print_info() {
-        System.out.println("\n...PRINTING INFO ... \n");
+        System.out.println("-----------------------------------------------------");
         System.out.println("Ante Wager is " + anteWager);
         System.out.println("Pair plus wager is " + pairPlusWager);
         System.out.println("Card Index is " + cardIndex);
@@ -66,7 +66,7 @@ public class PokerInfo implements Serializable {
         System.out.println("fold is " + fold);
         System.out.println("winnings is " + winnings);
         System.out.println("winnings from pair plus is " + winningsPair);
-        System.out.println("\n...END ...\n");
+        System.out.println("-----------------------------------------------------");
     }
 
     public void reset() {

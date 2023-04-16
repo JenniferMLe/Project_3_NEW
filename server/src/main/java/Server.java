@@ -15,7 +15,6 @@ import java.net.InetSocketAddress;
 public class Server{
 
     int count = 1;
-    ArrayList<Integer> card_deck;  // list of ints 0 - 51
     ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
     TheServer server;
     private Consumer<Serializable> callback;
@@ -38,12 +37,6 @@ public class Server{
         this.port_number = port_number;
         server = new TheServer();
         server.start();
-
-        card_deck =  new ArrayList<>();
-        // initialize card_deck with integers 0-51
-        for (int i = 0; i < 52; i++) {
-            card_deck.add(i);
-        }
     }
 
     public class TheServer extends Thread{
@@ -105,11 +98,13 @@ public class Server{
 
         public void shuffleCards() {
             // shuffle deck
-            ArrayList<Integer> shuffledCardDeck;
-            shuffledCardDeck = card_deck;
+            ArrayList<Integer> shuffledCardDeck = new ArrayList<>();
+            // shuffledCardDeck = card_deck;
+            for (int i = 0; i < 52; i++) {
+                shuffledCardDeck.add(i);
+            }
             Collections.shuffle(shuffledCardDeck);
             info.set_shuffledCards(shuffledCardDeck);
-
             info.set_clientCards(draw_three_cards(info.cardIndex));
             info.set_serverCards(draw_three_cards(info.cardIndex));
         }
@@ -118,9 +113,9 @@ public class Server{
         public void send(PokerInfo instance) {
             try {
                 //print statment to check what is being sent
-                System.out.println("Sending to client: " + instance.get_clientCards().get(0));
+                // System.out.println("Sending to client: " + instance.get_clientCards().get(0));
                 //another print statment to check what is being sent to the client from the server
-                System.out.println("Sending to client LOL m8 : " + instance.get_serverCards().get(0));
+                // System.out.println("Sending to client LOL m8 : " + instance.get_serverCards().get(0));
                 instance.print_info();
                 out.writeObject(instance);
             } catch (IOException e) {

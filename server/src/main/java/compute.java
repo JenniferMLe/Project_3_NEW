@@ -13,22 +13,28 @@ public class compute {
         return false;
     }
 
+    // consecutive cards
     static boolean straight(ArrayList<Integer> cards) {
         Collections.sort(cards);
-        return ((cards.get(0) == cards.get(1) + 1 && cards.get(1) == cards.get(2) + 1) ||
-                (cards.get(0) == cards.get(1) - 1 && cards.get(1) == cards.get(2) - 1));
+        int cardType1 = cards.get(0) % 13;
+        int cardType2 = cards.get(1) % 13;
+        int cardType3 = cards.get(2) % 13;
+        return ((cardType1 == cardType2 + 1) && (cardType2 == cardType3 + 1));
     }
 
+    // cards of the same suit
     static boolean flush(ArrayList<Integer> cards) {
         return (((cards.get(0) / 13) == (cards.get(1) / 13)) &&
                 ((cards.get(1) / 13) == (cards.get(2) / 13)));
     }
 
+    // cards of the same type
     static boolean threeOfAKind(ArrayList<Integer> cards) {
         return (((cards.get(0) % 13) == (cards.get(1) % 13)) &&
                 ((cards.get(1) % 13) == (cards.get(2) % 13)));
     }
 
+    // two cards of the same type
     static boolean pair(ArrayList<Integer> cards) {
         boolean bool1 = (((cards.get(0) % 13) == (cards.get(1) % 13)) ^
                 ((cards.get(1) % 13) == (cards.get(2) % 13)));
@@ -71,8 +77,8 @@ public class compute {
         else if (flush(info.server_cards))        { serverHand = 2; }
         else if (pair(info.server_cards))         { serverHand = 1; }
 
-        System.out.println("\nClient Hand is " + clientHand);
-        System.out.println("Server Hand is " + serverHand);
+        // System.out.println("\nClient Hand is " + clientHand);
+        // System.out.println("Server Hand is " + serverHand);
 
         if (serverHand > clientHand) {
             return totalWager * -1;
