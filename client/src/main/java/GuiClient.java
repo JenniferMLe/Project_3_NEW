@@ -23,6 +23,7 @@ import javafx.geometry.VPos;
 import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
 
 //yo what up this is a test
 public class GuiClient extends Application {
@@ -134,12 +135,15 @@ public class GuiClient extends Application {
 		}
 		else {
 			Label next_hand = new Label("Dealer does not have a queen high or better");
-			Label ante_wager = new Label("enter your ante wager for next hand");
-			Spinner<Integer> input = new Spinner<>(5, 25, 5);
+			Label ante_wager = new Label("You can change your ante wager here or keep it the same");
+			// Spinner<Integer> input = new Spinner<>(5, 25, 5);
+			TextField input = new TextField();
+			input.setText(Integer.toString(clientConn.info.get_anteWager()));
 			input.setMaxWidth(100);
+
 			Button nextHand_button = new Button("See next hand");
 			nextHand_button.setOnAction(e -> {
-				clientConn.info.set_anteWager(Integer.parseInt(input.getValue().toString()));
+				clientConn.info.set_anteWager(Integer.parseInt(input.getText().toString()));
 				clientConn.info.nextHand = true;
 				clientConn.send(clientConn.info);
 				display_cards_scene(primaryStage);
@@ -162,11 +166,8 @@ public class GuiClient extends Application {
 		TextField input = new TextField();
 		input.setMaxWidth(100);
 
-		// button to continue after placing play wager
-		Button continue_ = new Button("Continue");
-
 		// HBox to hold components
-		HBox playWagerBox = new HBox(10, playWager, input, continue_);
+		HBox playWagerBox = new HBox(10, playWager, input);
 		playWagerBox.setAlignment(Pos.CENTER);
 		playWagerBox.setVisible(false);
 
@@ -175,11 +176,17 @@ public class GuiClient extends Application {
 		seeResults.setOnAction(e -> display_results(primaryStage));
 		seeResults.setVisible(false);
 
-		continue_.setOnAction(e -> {
-			dealerCards.setVisible(true);
-			dealerCardsHidden.setVisible(false);
-			playWagerBox.setVisible(false);
-			seeResults.setVisible(true);
+		input.setOnAction(e -> {
+			if (Integer.parseInt(input.getText()) != clientConn.info.get_anteWager()) {
+				Alert alert = new Alert(Alert.AlertType.WARNING,
+						"Your play wager must be equal to your ante wager");
+				alert.showAndWait();
+			} else {
+				dealerCards.setVisible(true);
+				dealerCardsHidden.setVisible(false);
+				playWagerBox.setVisible(false);
+				seeResults.setVisible(true);
+			}
 		});
 
 		// Play or fold area
@@ -262,7 +269,7 @@ public class GuiClient extends Application {
 		borderPane.setTop(menuBar);
 		borderPane.setLeft(wagerAndWinnings);
 		borderPane.setCenter(mainStack);
-		borderPane.setBottom(gameInfoArea);   // gameInfoArea
+		borderPane.setBottom(gameInfoArea);
 		borderPane.setRight(playOrFold);
 
 		// set up scene
