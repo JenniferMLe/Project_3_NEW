@@ -30,6 +30,16 @@ public class Server{
     // Add a setter method for the boolean property
     public void setAllowClients(boolean allowClients) {
         this.allowClients = allowClients;
+        if (!allowClients) {
+            for (ClientThread client : clients) {
+                client.setConnected(false);
+                try {
+                    client.connection.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     // constructor
@@ -86,12 +96,20 @@ public class Server{
 
         String uniqueId;
 
+        private volatile boolean connected;
+
         ClientThread(Socket s, int count){
             this.connection = s;
             this.count = count;
             // this.info = new PokerInfo(0,0);
             this.uniqueId = s.getInetAddress().toString() + ":" + s.getPort();
 
+            connected = true;
+
+        }
+
+        public void setConnected(boolean connected) {
+            this.connected = connected;
         }
 
         public ArrayList<Integer> draw_three_cards(int card_index) {
@@ -139,7 +157,7 @@ public class Server{
                 System.out.println("Streams not open");
             }
 
-            while(true) {
+            while(connected) {
                 try {
                     // gets info from client
                     PokerInfo clientData = (PokerInfo) in.readObject();
