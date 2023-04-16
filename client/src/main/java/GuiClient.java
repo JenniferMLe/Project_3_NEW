@@ -122,7 +122,8 @@ public class GuiClient extends Application {
 
 		if (clientConn.info.fold) {
 			System.out.println("WINNINGS IS " + clientConn.info.winnings);
-			Label lost = new Label("You folded and lost $" + (clientConn.info.winnings * -1));
+			int loss = clientConn.info.get_anteWager() + clientConn.info.get_paiPlusWager();
+			Label lost = new Label("You folded and lost $" + loss + " (ante wager + pair plus wager).");
 			components = new VBox(20, lost, playExit);
 		}
 		else if (clientConn.info.queenHigh) {
@@ -131,7 +132,8 @@ public class GuiClient extends Application {
 				label = new Label("You beat the dealer. You win $" + clientConn.info.winnings);
 			}
 			else if (clientConn.info.winnings < 0) {
-				label = new Label("The dealer beat you. You lost $" + (clientConn.info.winnings * -1));
+				label = new Label("The dealer beat you. You lost $" + (clientConn.info.winnings * -1) +
+						" (ante wager + play wager");
 			}
 			else {
 				label = new Label("You tied with the dealer");
