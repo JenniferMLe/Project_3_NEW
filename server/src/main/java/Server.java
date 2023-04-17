@@ -194,11 +194,20 @@ public class Server{
                         }
                     }
 
-                    if (info.winnings > 0) {
-                        callback.accept("client # " + count + " has won $" + info.winnings);
-                    } else {
-                        callback.accept("client # " + count + " has lost $" + (-info.winnings));
+                    int totalWinnings = info.winnings + info.winningsPair;
+
+                    if(!info.fold) {
+                        if (info.winnings > 0) {
+                            callback.accept("client # " + count + " has won $" + totalWinnings);
+                        } else {
+                            callback.accept("client # " + count + " has lost $" + (-totalWinnings));
+                        }
                     }
+                    else {
+                        callback.accept("client # " + count + " has folded and lost $" + (-info.winnings));
+                    }
+
+
 
                     send(info);
                 }

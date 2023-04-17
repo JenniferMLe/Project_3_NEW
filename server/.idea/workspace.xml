@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf7db38-6e8b-4986-95f9-62e6a310b58f" name="Changes" comment="added some changes">
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/GuiClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/Client.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/GuiClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../client/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PokerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/compute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/compute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/MyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MyTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/PokerInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/PokerInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$ClientThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server$TheServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server$TheServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/compute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/compute.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +134,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added some changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some changes" />
+    <MESSAGE value="most recent" />
+    <option name="LAST_COMMIT_MESSAGE" value="most recent" />
   </component>
 </project>

@@ -19,7 +19,7 @@ public class compute {
         int cardType1 = cards.get(0) % 13;
         int cardType2 = cards.get(1) % 13;
         int cardType3 = cards.get(2) % 13;
-        return ((cardType1 == cardType2 + 1) && (cardType2 == cardType3 + 1));
+        return ((cardType1 == cardType2 - 1) && (cardType2 == cardType3 - 1));
     }
 
     // cards of the same suit
