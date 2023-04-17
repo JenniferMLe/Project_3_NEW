@@ -96,9 +96,7 @@ public class Server{
             this.count = count;
             // this.info = new PokerInfo(0,0);
             this.uniqueId = s.getInetAddress().toString() + ":" + s.getPort();
-
             connected = true;
-
         }
 
         public void setConnected(boolean connected) {
@@ -115,9 +113,7 @@ public class Server{
         }
 
         public void shuffleCards() {
-            // shuffle deck
             ArrayList<Integer> shuffledCardDeck = new ArrayList<>();
-            // shuffledCardDeck = card_deck;
             for (int i = 0; i < 52; i++) {
                 shuffledCardDeck.add(i);
             }
@@ -208,11 +204,9 @@ public class Server{
                         } else {
                             callback.accept("client # " + count + " has lost $" + (-totalWinnings));
                         }
-                    }
-                    else {
+                    } else {
                         callback.accept("client # " + count + " has folded and lost $" + (-info.winnings));
                     }
-
                     send(info);
                 }
                 catch(Exception e) {

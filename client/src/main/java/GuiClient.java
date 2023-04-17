@@ -31,6 +31,7 @@ public class GuiClient extends Application {
 	HBox dealerCards, dealerCardsHidden;
 	Label playerWinningsLabel;
 	String gameInfoText = "";
+	String background = "-fx-background-color: #F7F7F7";
 
 	//initialize the pokertable image variable as global
 	// HERE...
@@ -68,6 +69,10 @@ public class GuiClient extends Application {
 		return imageView;
 	}
 
+	private void new_look() {
+		background = "-fx-background-color: #F0E9FF";
+	}
+
 	private void create_menu_bar(Stage primaryStage) {
 		menuBar = new MenuBar();
 		Menu optionsMenu = new Menu("Options");
@@ -95,8 +100,8 @@ public class GuiClient extends Application {
 		});
 
 		newLookItem.setOnAction(e -> {
-
-
+			new_look();
+			display_cards_scene(primaryStage);
 		});
 
 	}
@@ -305,6 +310,10 @@ public class GuiClient extends Application {
 		gridPane.add(mainBox, 0, 0);
 		gridPane.setAlignment(Pos.CENTER);
 
+		// Set constraints to control the position of dealer and player cards
+		// gridPane.setValignment(mainBox, VPos.TOP);
+		// gridPane.setMargin(mainBox, new Insets(-10, 0, 0, 0)); // Adjust margin for dealerCards
+
 		// Wager and winnings areas
 		Label anteWagerLabel = new Label("Ante Wager: $" + clientConn.info.get_anteWager());
 		Label pairPlusWagerLabel = new Label("Pair Plus Wager: $" + clientConn.info.get_paiPlusWager());
@@ -335,6 +344,7 @@ public class GuiClient extends Application {
 
 		// set up scene
 		Scene scene = new Scene(borderPane, 700, 700);
+		scene.getRoot().setStyle(background);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("This is a Client");
 		primaryStage.show();
