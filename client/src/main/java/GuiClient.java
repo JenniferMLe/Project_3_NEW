@@ -96,6 +96,7 @@ public class GuiClient extends Application {
 
 		newLookItem.setOnAction(e -> {
 
+
 		});
 
 	}
@@ -303,10 +304,6 @@ public class GuiClient extends Application {
 		GridPane gridPane = new GridPane();
 		gridPane.add(mainBox, 0, 0);
 		gridPane.setAlignment(Pos.CENTER);
-
-		// Set constraints to control the position of dealer and player cards
-		// gridPane.setValignment(mainBox, VPos.TOP);
-		// gridPane.setMargin(mainBox, new Insets(-10, 0, 0, 0)); // Adjust margin for dealerCards
 
 		// Wager and winnings areas
 		Label anteWagerLabel = new Label("Ante Wager: $" + clientConn.info.get_anteWager());
