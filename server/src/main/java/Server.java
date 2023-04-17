@@ -175,22 +175,28 @@ public class Server{
                     }
                     else {
                         if (clientData.newGame) {
+                            int oldWinnings = info.totalWinnings;
                             this.info = new PokerInfo(0, 0);
                             shuffleCards();
+                            info.totalWinnings = oldWinnings;
                             info.set_anteWager(clientData.get_anteWager());
                             info.set_pairPlusWager(clientData.get_paiPlusWager());
-                        } else if (clientData.nextHand) {
+                        }
+                        else if (clientData.nextHand) {
                             info.server_cards = draw_three_cards(info.cardIndex);
                             info.nextHand = false;
                             info.set_anteWager(clientData.get_anteWager());
                             info.set_pairPlusWager(clientData.get_paiPlusWager());
                         }
-                        if (!compute.queenOrHigher(info.get_serverCards())) {
-                            info.set_queenHigh(false);
-                        } else {
-                            info.set_queenHigh(true);
-                            info.winnings = compute.winnings(info);
-                            info.winningsPair= compute.pairPlusWinnings(info);
+                        if (clientData.play) {
+                            if (!compute.queenOrHigher(info.get_serverCards())) {
+                                info.set_queenHigh(false);
+                            } else {
+                                info.set_queenHigh(true);
+                                info.winnings = compute.winnings(info);
+                                info.winningsPair = compute.pairPlusWinnings(info);
+                                info.totalWinnings = info.totalWinnings + info.winnings + info.winningsPair;
+                            }
                         }
                     }
 

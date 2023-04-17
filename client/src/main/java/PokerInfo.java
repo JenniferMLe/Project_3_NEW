@@ -14,10 +14,12 @@ public class PokerInfo implements Serializable {
     boolean queenHigh;
     boolean fold;
     int winnings;
+    int totalWinnings = 0;
     int winningsPair;
     int cardIndex;
     boolean newGame;
     boolean nextHand;
+    boolean play;
 
     String gameInfoMessage;
 
