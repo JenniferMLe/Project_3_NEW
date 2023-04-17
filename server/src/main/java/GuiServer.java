@@ -15,7 +15,7 @@ import javafx.geometry.Insets;
 
 public class GuiServer extends Application {
 
-	ListView<String> game_state;
+	ListView<String> game_state; // this is the list view that will display the game state
 	Server serverConnection;
 
 	public static void main(String[] args) {
@@ -34,18 +34,18 @@ public class GuiServer extends Application {
 		off_button.setToggleGroup(toggle_group);
 		on_button.setSelected(true);
 
-		toggle_group.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
-			if (newVal == on_button) {
+		toggle_group.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> { // this is the listener for the radio buttons
+			if (newVal == on_button) { // if the server is on, allow clients to connect
 				serverConnection.setAllowClients(true);
-			} else if (newVal == off_button) {
+			} else if (newVal == off_button) { // if the server is off, do not allow clients to connect
 				serverConnection.setAllowClients(false);
 			}
 		});
 
-		HBox button_box = new HBox(20, on_button, off_button);
+		HBox button_box = new HBox(20, on_button, off_button); // create a box to hold the radio buttons
 		button_box.setAlignment(Pos.CENTER);
 
-		VBox server_box = new VBox(20, state, button_box, game_state);
+		VBox server_box = new VBox(20, state, button_box, game_state); // create a box to hold all components
 		server_box.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(server_box, 400, 400);
 		primaryStage.setScene(scene);
@@ -59,14 +59,14 @@ public class GuiServer extends Application {
 		port_input.setMaxWidth(200);
 		Button start_server = new Button("Start Server");
 
-		start_server.setOnAction(e -> {
-			display_server_scene(primaryStage);
-			int port_number = Integer.parseInt(port_input.getText());
-			System.out.println("Port is " + port_number);
+		start_server.setOnAction(e -> { // this is the listener for the start server button
+			display_server_scene(primaryStage); // display the server scene
+			int port_number = Integer.parseInt(port_input.getText()); // get the port number from the text field
+			System.out.println("Port is " + port_number); // print the port number to the console
 
-			serverConnection = new Server(data -> {
+			serverConnection = new Server(data -> { // create a new server
 				Platform.runLater(()->{
-					game_state.getItems().add(data.toString());
+					game_state.getItems().add(data.toString()); // add the data to the list view
 				});
 			}, port_number);
 		});

@@ -6,15 +6,19 @@ import java.net.Socket;
 import java.util.function.Consumer;
 import java.util.ArrayList;
 
+//test1
 public class Client extends Thread{
     Socket socketClient;
     ObjectOutputStream out;
     ObjectInputStream in;
 
+    // UNDO UNTIL HERE
     private Consumer<Serializable> callback;
     int port_number = 0;
     String IP_addr = "";
     PokerInfo info = new PokerInfo(0, 0);
+
+    // ArrayList<Integer> clientCards; //idk if this is needed
 
     Client(Consumer<Serializable> call, int port_number, String IP_addr){
         callback = call;
@@ -37,7 +41,9 @@ public class Client extends Thread{
                 serverData.print_info();
                 callback.accept(serverData);
                 info = serverData;
+                // info.print_info();
                 info.gameInfoMessage = serverData.getGameMessage();
+
             } catch (Exception e) { }
         }
     }
@@ -50,4 +56,5 @@ public class Client extends Thread{
             e.printStackTrace();
         }
     }
+
 }
