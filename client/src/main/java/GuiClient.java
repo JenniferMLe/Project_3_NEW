@@ -29,6 +29,8 @@ public class GuiClient extends Application {
 	MenuBar menuBar;
 	ArrayList<Image> cardImages;
 	HBox dealerCards, dealerCardsHidden;
+	Label playerWinningsLabel;
+	String gameInfoText = "";
 
 	//initialize the pokertable image variable as global
 	// HERE...
@@ -64,19 +66,9 @@ public class GuiClient extends Application {
 		imageView.setFitWidth(60);
 		imageView.setPreserveRatio(true);
 		return imageView;
-
-		/*
-		int suit = number / 13;
-		int rank = number % 13;
-		Image cardImage = cardImages.get(suit * 13 + rank);
-		ImageView imageView = new ImageView(cardImage);
-		imageView.setFitWidth(60);
-		imageView.setPreserveRatio(true);
-		return imageView;
-		 */
 	}
 
-	private void create_menu_bar() {
+	private void create_menu_bar(Stage primaryStage) {
 		menuBar = new MenuBar();
 		Menu optionsMenu = new Menu("Options");
 		MenuItem exitItem = new MenuItem("Exit");
@@ -93,11 +85,17 @@ public class GuiClient extends Application {
 
 		//event handler for fresh start
 		freshStartItem.setOnAction(e -> {
+			display_wager_scene(primaryStage);
+
 			//set pair plus wager to 0
 			//set ante wager to 0
 			//set winnings to 0
 			//reshuffle deck(new cards for both dealer and player)
 			//go back to wager scene
+		});
+
+		newLookItem.setOnAction(e -> {
+
 		});
 
 	}
@@ -108,6 +106,7 @@ public class GuiClient extends Application {
 	}
 
 	void display_results(Stage primaryStage) {
+		int winnings = clientConn.info.winnings;
 		VBox components;
 		Button play_again = new Button("Play Again");
 		Button exit_game = new Button("Exit Game");
@@ -121,31 +120,39 @@ public class GuiClient extends Application {
 		exit_game.setOnAction(e -> System.exit(0));
 
 		if (clientConn.info.fold) {
-			System.out.println("WINNINGS IS " + clientConn.info.winnings);
+			System.out.println("WINNINGS IS " + winnings);
 			int loss = clientConn.info.get_anteWager() + clientConn.info.get_paiPlusWager();
 			Label lost = new Label("You folded and lost $" + loss + " (ante wager + pair plus wager).");
 			components = new VBox(20, lost, playExit);
+			gameInfoText += "This player folded and lost " + loss + ".\n";
 		}
 		else if (clientConn.info.queenHigh) {
 			Label label;
-			if (clientConn.info.winnings > 0) {
-				label = new Label("You beat the dealer. You win $" + clientConn.info.winnings);
+			if (winnings > 0) {
+				label = new Label("You beat the dealer. You win $" + winnings);
+				gameInfoText += "This player beat the dealer and won " + winnings + ".\n";
 			}
-			else if (clientConn.info.winnings < 0) {
-				label = new Label("The dealer beat you. You lost $" + (clientConn.info.winnings * -1) +
+			else if (winnings < 0) {
+				label = new Label("The dealer beat you. You lost $" + (winnings * -1) +
 						" (ante wager + play wager");
+				gameInfoText += "This player was defeated by the dealer and lost " + (winnings * -1) + ".\n";
 			}
 			else {
 				label = new Label("You tied with the dealer");
+				gameInfoText += "This player tied with the dealer.\n";
 			}
 			Label pairPlus;
 			if (clientConn.info.get_paiPlusWager() > 0) {
+				int winningsPair_ = clientConn.info.winningsPair;
 				if (clientConn.info.winningsPair > 0) {
-					pairPlus = new Label("You won $" + clientConn.info.winningsPair +
+					pairPlus = new Label("You also win $" + winningsPair_ +
 							" from your pair plus wager");
+					gameInfoText += "This player won their pair plus wager and won " + winningsPair_ + ".\n";
 				} else {
-					pairPlus = new Label("You lost $" + (clientConn.info.winningsPair * -1) +
+					pairPlus = new Label("You lost $" + (winningsPair_ * -1) +
 							" from your pair plus wager");
+					gameInfoText += "This player lost their pair plus wager and lost "
+							+ (winningsPair_ * -1) + ".\n";
 				}
 			} else {
 				pairPlus = new Label("");
@@ -155,6 +162,8 @@ public class GuiClient extends Application {
 		else {
 			Label queenHigh = new Label("Dealer does not have a queen high or better.");
 			Label enter =  new Label("Press enter to continue or change your wagers below");
+			gameInfoText += "This player's ante wager was pushed because the dealer " +
+					"does not have at least Queen high.\n";
 
 			Label ante_wager = new Label("Ante Wager");
 			TextField input = new TextField();
@@ -203,7 +212,7 @@ public class GuiClient extends Application {
 
 	void display_cards_scene(Stage primaryStage) {
 
-		create_menu_bar();
+		create_menu_bar(primaryStage);
 
 		// play wager area
 		Label playWager = new Label("Make your play wager. This must be equal to your ante wager.");
@@ -232,6 +241,7 @@ public class GuiClient extends Application {
 				dealerCardsHidden.setVisible(false);
 				playWagerBox.setVisible(false);
 				seeResults.setVisible(true);
+				playerWinningsLabel.setVisible(true);
 			}
 		});
 
@@ -245,6 +255,9 @@ public class GuiClient extends Application {
 		play.setOnAction(e -> {
 			playWagerBox.setVisible(true);
 			playOrFold.setVisible(false);
+			clientConn.info.play = true;
+			clientConn.send(clientConn.info);
+			clientConn.info.play = false;
 		});
 
 		fold.setOnAction(e -> {
@@ -296,16 +309,18 @@ public class GuiClient extends Application {
 		// gridPane.setMargin(mainBox, new Insets(-10, 0, 0, 0)); // Adjust margin for dealerCards
 
 		// Wager and winnings areas
-		Label anteWagerLabel = new Label("Ante Wager: " + clientConn.info.get_anteWager());
-		Label pairPlusWagerLabel = new Label("Pair Plus Wager: " + clientConn.info.get_paiPlusWager());
-		Label playerWinningsLabel = new Label("Player Winnings: ");
+		Label anteWagerLabel = new Label("Ante Wager: $" + clientConn.info.get_anteWager());
+		Label pairPlusWagerLabel = new Label("Pair Plus Wager: $" + clientConn.info.get_paiPlusWager());
+		playerWinningsLabel = new Label("Player Total Winnings: $" + clientConn.info.totalWinnings);
+		playerWinningsLabel.setVisible(false);
 		VBox wagerAndWinnings = new VBox(10, anteWagerLabel, pairPlusWagerLabel, playerWinningsLabel);
 		wagerAndWinnings.setAlignment(Pos.CENTER);
 
 		// Game info area
 		Label gameInfoLabel = new Label("Game Info:");
 		TextArea gameInfo = new TextArea();
-//		gameInfo.setText(clientConn.info.getGameMessage());
+		gameInfo.setMaxWidth(550);
+		gameInfo.setText(gameInfoText);
 
 		gameInfo.setEditable(false);
 		gameInfo.setPrefSize(50, 120);
@@ -329,6 +344,7 @@ public class GuiClient extends Application {
 	}
 
 	void display_wager_scene(Stage primaryStage) {
+		gameInfoText += "---------------------------- NEW GAME ----------------------------\n";
 		Label ante_wager = new Label("Please enter your ante wager in dollars");
 		ante_wager.setStyle("-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
 				"-fx-font-size: 16px; -fx-text-fill: #000000;");
@@ -371,6 +387,8 @@ public class GuiClient extends Application {
 
 			clientConn.info.set_anteWager(wager1);
 			clientConn.info.set_pairPlusWager(wager2);
+			gameInfoText += "This player made an ante wager of " + clientConn.info.get_anteWager() + ".\n";
+			gameInfoText += "This player made a pair plus wager of " + clientConn.info.get_paiPlusWager() + ".\n";
 			clientConn.info.newGame = true;
 			clientConn.send(clientConn.info);
 
@@ -444,8 +462,6 @@ public class GuiClient extends Application {
 			// Display_wager_scene(primaryStage);
 			int port_number = Integer.parseInt(portNum_input.getText());
 			String IP_addr = IP_addr_input.getText();
-			System.out.println("Port Number is " + port_number);
-			System.out.println("IP Address is " + IP_addr);
 
 			clientConn = new Client(data -> {
 				Platform.runLater(() -> {
