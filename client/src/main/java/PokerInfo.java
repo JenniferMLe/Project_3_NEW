@@ -20,10 +20,7 @@ public class PokerInfo implements Serializable {
     boolean newGame;
     boolean nextHand;
     boolean play;
-
     String gameInfoMessage;
-
-    boolean play;
 
     public void set_anteWager(int anteWager) { this.anteWager = anteWager; }
     public void set_pairPlusWager(int pairPlusWager) { this.pairPlusWager = pairPlusWager; }

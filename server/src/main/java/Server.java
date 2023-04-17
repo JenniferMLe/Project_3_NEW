@@ -202,7 +202,7 @@ public class Server{
 
                     int totalWinnings = info.winnings + info.winningsPair;
 
-                    if(!info.fold) {
+                    if(info.play) {
                         if (info.winnings > 0) {
                             callback.accept("client # " + count + " has won $" + totalWinnings);
                         } else {
@@ -212,8 +212,6 @@ public class Server{
                     else {
                         callback.accept("client # " + count + " has folded and lost $" + (-info.winnings));
                     }
-
-
 
                     send(info);
                 }
