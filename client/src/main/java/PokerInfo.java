@@ -22,6 +22,8 @@ public class PokerInfo implements Serializable {
     boolean play;
     String gameInfoMessage;
 
+
+
     public void set_anteWager(int anteWager) { this.anteWager = anteWager; }
     public void set_pairPlusWager(int pairPlusWager) { this.pairPlusWager = pairPlusWager; }
     public void set_shuffledCards(ArrayList<Integer> shuffled_cards) { this.shuffled_cards = shuffled_cards; }
@@ -67,6 +69,7 @@ public class PokerInfo implements Serializable {
         System.out.println("fold is " + fold);
         System.out.println("winnings is " + winnings);
         System.out.println("winnings from pair plus is " + winningsPair);
+
         System.out.println("-----------------------------------------------------");
     }
 

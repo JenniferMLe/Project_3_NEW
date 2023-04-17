@@ -43,6 +43,7 @@ public class Client extends Thread{
                 info = serverData;
                 // info.print_info();
                 info.gameInfoMessage = serverData.getGameMessage();
+
             } catch (Exception e) { }
         }
     }
@@ -55,16 +56,5 @@ public class Client extends Thread{
             e.printStackTrace();
         }
     }
-    /*
-    //receives 3 cards from server
-    public void receiveCards() {
-        try {
-            PokerInfo serverData = (PokerInfo) in.readObject();
-            clientCards = serverData.get_clientCards();
-            System.out.println("Received client cards from server: " + clientCards.get(0));
-        } catch (Exception e) {
-            callback.accept("Error receiving client cards from server: " + e.getMessage());
-        }
-    }
-     */
+
 }
