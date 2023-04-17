@@ -43,6 +43,7 @@ public class PokerInfo implements Serializable {
         this.gameInfoMessage = gameInfoMessage;
     }
 
+    // prints info for debugging
     public void print_info() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Ante Wager is " + anteWager);

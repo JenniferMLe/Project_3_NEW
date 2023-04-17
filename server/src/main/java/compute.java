@@ -65,24 +65,25 @@ public class compute {
         int clientHand = 0;
         int serverHand = 0;
 
+        // rank clientHand
         if (straight(info.client_cards) && flush(info.client_cards)) { clientHand = 5; }
         else if (threeOfAKind(info.client_cards)) { clientHand = 4; }
         else if (straight(info.client_cards))     { clientHand = 3; }
         else if (flush(info.client_cards))        { clientHand = 2; }
         else if (pair(info.client_cards))         { clientHand = 1; }
 
+        // rank serverHand
         if (straight(info.server_cards) && flush(info.server_cards)) { clientHand = 5; }
         else if (threeOfAKind(info.server_cards)) { serverHand = 4; }
         else if (straight(info.server_cards))     { serverHand = 3; }
         else if (flush(info.server_cards))        { serverHand = 2; }
         else if (pair(info.server_cards))         { serverHand = 1; }
 
-        // System.out.println("\nClient Hand is " + clientHand);
-        // System.out.println("Server Hand is " + serverHand);
-
+        // if server hand ranks higher return negative winnings
         if (serverHand > clientHand) {
             return totalWager * -1;
         }
+        // if client hand ranks higher return positive winnings
         else if (serverHand < clientHand) {
             return totalWager;
         }
