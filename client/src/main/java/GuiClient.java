@@ -22,7 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-//yo what up this is a test
+
 public class GuiClient extends Application {
 
 	Client clientConn;
@@ -156,7 +156,7 @@ public class GuiClient extends Application {
 		TextField input2 = new TextField();
 		input2.setText(Integer.toString(clientConn.info.get_paiPlusWager()));
 		input2.setMaxWidth(100);
-		HBox wager2 = new HBox(10, pair_plus, input2);
+		HBox wager2 = new HBox(10, pair_plus, input=2);
 		wager2.setAlignment(Pos.CENTER);
 
 		EventHandler<ActionEvent> myHandler = new EventHandler<ActionEvent>() {
